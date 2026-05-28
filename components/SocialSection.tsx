@@ -9,7 +9,7 @@ export function SocialSection() {
       <SectionHeading
         eyebrow="Social feeds"
         title="Follow matchdays and club life"
-        text="Keep up with club updates, matchdays, photos and community news through our social channels."
+        text="Keep up with club updates, photos, matchdays and community news through our social channels."
       />
 
       <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-2">
@@ -25,16 +25,25 @@ export function SocialSection() {
             </ButtonLink>
           </div>
 
-          <div className="flex h-80 items-center justify-center rounded-3xl border-2 border-dashed border-sky-200 bg-sky-50 p-8 text-center">
-            <div>
-              <Icon name="camera" className="mx-auto h-10 w-10 text-sky-700" />
-              <p className="mt-4 font-black text-slate-950">
-                Instagram feed coming soon
-              </p>
-              <p className="mt-2 text-sm text-slate-600">
-                Follow @uphill_juniors_fc for photos, updates and club news.
-              </p>
-            </div>
+          <div className="flex h-[600px] flex-col items-center justify-center rounded-3xl bg-gradient-to-br from-sky-50 to-slate-100 p-8 text-center">
+            <Icon name="camera" className="h-12 w-12 text-sky-700" />
+
+            <h3 className="mt-4 text-xl font-black text-slate-950">
+              Follow us on Instagram
+            </h3>
+
+            <p className="mt-3 max-w-sm text-sm text-slate-600">
+              Match photos, tournament days, training sessions, club news and everything happening around Uphill Juniors FC.
+            </p>
+
+            <a
+              href="https://www.instagram.com/uphill_juniors_fc"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 rounded-full bg-sky-700 px-6 py-3 font-bold text-white transition hover:bg-sky-800"
+            >
+              @uphill_juniors_fc
+            </a>
           </div>
         </div>
 
