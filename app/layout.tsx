@@ -20,4 +20,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </body>
     </html>
   );
-}
+export const metadata: Metadata = {
+  title: "Uphill Juniors FC",
+  description: "Friendly grassroots football for the Uphill, Bournville, Oldmixon, Coronation Estate and wider local community.",
+  verification: {
+    google: "la-VS5ZOjjODSwzN6Uqda7N8iDiD3-8oiVxMJQLm7MY",
+  },
+};
