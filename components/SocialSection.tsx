@@ -62,8 +62,7 @@ export function SocialSection() {
           <div className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-50">
             <iframe
               title="Uphill Juniors FC Facebook feed"
-              src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D61590157618794&tabs=timeline&width=500&height=600&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true"
-              width="100%"
+src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FUphillJuniorsFC&tabs=timeline&width=500&height=600&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true"              width="100%"
               height="600"
               style={{ border: "none", overflow: "hidden" }}
               scrolling="no"
