@@ -6,10 +6,18 @@ import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
   title: "Uphill Juniors FC",
-  description: "Friendly grassroots football for the Uphill, Bournville, Oldmixon, Coronation Estate and wider local community.",
+  description:
+    "Friendly grassroots football for the Uphill, Bournville, Oldmixon, Coronation Estate and wider local community.",
+  verification: {
+    google: "la-VS5ZOjjODSwzN6Uqda7N8iDiD3-8oiVxMJQLm7MY",
+  },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en-GB">
       <body>
@@ -20,10 +28,4 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </body>
     </html>
   );
-export const metadata: Metadata = {
-  title: "Uphill Juniors FC",
-  description: "Friendly grassroots football for the Uphill, Bournville, Oldmixon, Coronation Estate and wider local community.",
-  verification: {
-    google: "la-VS5ZOjjODSwzN6Uqda7N8iDiD3-8oiVxMJQLm7MY",
-  },
-};
+}
