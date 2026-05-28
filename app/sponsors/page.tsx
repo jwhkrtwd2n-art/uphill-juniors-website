@@ -13,7 +13,9 @@ export default function SponsorsPage() {
       <div className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] border border-slate-200 bg-slate-950 shadow-2xl">
         <div className="grid gap-0 lg:grid-cols-[1.15fr_0.85fr]">
           <div className="bg-white p-4 sm:p-6">
-            <Image src="/sponsor-mockups.png" alt="Uphill Juniors FC sponsor mockups" width={1600} height={1000} className="w-full rounded-3xl border border-slate-200 object-cover shadow-sm" />
+            <a href="/sponsor-mockups.png" target="_blank" rel="noreferrer noopener" className="block w-full transition hover:scale-[1.01]">
+              <Image src="/sponsor-mockups.png" alt="Uphill Juniors FC sponsor mockups" width={1600} height={1000} className="w-full rounded-3xl border border-slate-200 object-cover shadow-sm" />
+            </a>
           </div>
           <div className="flex flex-col justify-center p-8 text-white sm:p-10">
             <p className="text-sm font-black uppercase tracking-[0.22em] text-sky-300">Sponsorship 2026/27</p>
