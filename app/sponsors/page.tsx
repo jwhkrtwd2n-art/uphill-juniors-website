@@ -46,7 +46,7 @@ export default function SponsorsPage() {
           </div>
         </div>
 
-        <div className="rounded-[2rem] border border-slate-200 bg-slate-950 p-8 text-white shadow-2xl">
+        <div className="rounded-[2rem] border border-slate-200 bg-blue-950 p-8 text-white shadow-2xl">
           <p className="text-sm font-black uppercase tracking-[0.22em] text-sky-300">Sponsorship 2026/27</p>
           <h1 className="mt-3 text-4xl font-black tracking-tight">Partner with Uphill Juniors FC</h1>
           <p className="mt-5 text-base leading-7 text-slate-300">Your business can help keep grassroots football affordable, support local young people and get visible community recognition through kit, coaching and training sponsorship.</p>
@@ -89,7 +89,7 @@ export default function SponsorsPage() {
             <Icon name="heart" className="h-8 w-8 text-sky-700" />
             <h2 className="mt-5 text-xl font-black text-slate-950">{sponsor.title}</h2>
             <div className="mt-3 flex flex-wrap gap-2">
-              <p className="inline-flex rounded-full bg-slate-950 px-3 py-1 text-sm font-black text-white">{sponsor.price}</p>
+              <p className="inline-flex rounded-full bg-blue-950 px-3 py-1 text-sm font-black text-white">{sponsor.price}</p>
               <p className="inline-flex rounded-full bg-white px-3 py-1 text-sm font-black text-sky-700">{sponsor.availability}</p>
             </div>
             <p className="mt-4 text-sm leading-6 text-slate-700">{sponsor.detail}</p>

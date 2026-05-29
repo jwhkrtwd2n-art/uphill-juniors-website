@@ -68,7 +68,7 @@ export function SponsorInquiryForm({ sponsorEmail }: SponsorInquiryFormProps) {
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="inline-flex w-full items-center justify-center rounded-full bg-blue-950 px-6 py-3 text-sm font-black text-white transition hover:bg-sky-700 sm:w-auto"
+        className="inline-flex w-full items-center justify-center rounded-full bg-sky-600 px-6 py-3 text-sm font-black text-white transition hover:bg-sky-700 sm:w-auto"
       >
         Send sponsor enquiry
       </button>
