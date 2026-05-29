@@ -4,7 +4,7 @@ import { Icon } from "./Icon";
 
 export function Footer() {
   return (
-    <footer className="bg-slate-950 px-4 py-10 text-white sm:px-6 lg:px-8">
+    <footer className="bg-blue-950 px-4 py-10 text-white sm:px-6 lg:px-8">
       <div className="mx-auto flex max-w-7xl flex-col gap-6 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-3">
           <ClubBadge className="h-14 w-14" size={72} />

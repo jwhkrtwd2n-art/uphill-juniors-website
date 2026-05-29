@@ -14,7 +14,7 @@ export function ButtonLink({ href, children, variant = "dark", className = "" }:
       ? "bg-sky-600 text-white hover:bg-sky-700"
       : variant === "light"
         ? "border border-slate-300 bg-white text-slate-950 hover:bg-slate-50"
-        : "bg-slate-950 text-white hover:bg-sky-700";
+        : "bg-blue-950 text-white hover:bg-sky-700";
 
   const allClasses = `inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-black transition ${classes} ${className}`;
 

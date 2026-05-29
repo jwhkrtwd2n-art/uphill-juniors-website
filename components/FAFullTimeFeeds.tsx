@@ -59,7 +59,7 @@ export function FAFullTimeFeeds() {
                 <h2 className="text-2xl font-black text-slate-950">{feed.title}</h2>
                 <p className="mt-1 text-sm text-slate-600">{feed.description}</p>
               </div>
-              <a className="rounded-full bg-slate-950 px-4 py-2 text-sm font-black text-white hover:bg-sky-700" href="https://fulltime.thefa.com" target="_blank" rel="noreferrer">Full-Time</a>
+              <a className="rounded-full bg-blue-950 px-4 py-2 text-sm font-black text-white hover:bg-sky-700" href="https://fulltime.thefa.com" target="_blank" rel="noreferrer">Full-Time</a>
             </div>
             <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-slate-50 p-4">
               <div id={feed.containerId} style={{ width: "350px", maxWidth: "100%" }}>

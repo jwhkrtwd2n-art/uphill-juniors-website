@@ -15,7 +15,7 @@ export default function TeamsPage() {
               <p className="text-sm font-black uppercase tracking-[0.14em] text-sky-700">{team.schoolYear}</p>
               <h1 className="mt-2 text-2xl font-black text-slate-950">{team.name}</h1>
               <div className="mt-3 flex flex-wrap items-center gap-2">
-                <p className="inline-flex rounded-full bg-slate-950 px-3 py-1 text-xs font-black text-white">{team.format}</p>
+                <p className="inline-flex rounded-full bg-blue-950 px-3 py-1 text-xs font-black text-white">{team.format}</p>
                 {team.sponsorAvailability ? (
                   <p className="inline-flex rounded-full bg-sky-100 px-3 py-1 text-xs font-black text-sky-700">{team.sponsorAvailability}</p>
                 ) : null}

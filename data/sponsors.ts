@@ -124,3 +124,10 @@ export const sponsorShowcase = [
   { name: "Available", type: "Training Sponsor", note: "Weekly visibility across training sessions." },
   { name: "Available", type: "Community Partner", note: "Support the club through services, funding or equipment." },
 ];
+export const sponsorBenefits = [
+  "Gain visibility within the local community",
+  "Reach local families every week",
+  "Support local children and grassroots football",
+  "Positive association with youth development",
+  "Volunteer-led club with strong community values",
+];

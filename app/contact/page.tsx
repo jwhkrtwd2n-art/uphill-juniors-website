@@ -7,7 +7,7 @@ export default function ContactPage() {
     <main className="px-4 py-16 sm:px-6 lg:px-8">
       <SectionHeading eyebrow="Contact & Volunteers" title="Support the club off the pitch" text="We are not actively recruiting players while many age groups are oversubscribed, but adult volunteers and sponsors are always welcome." />
       <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-2">
-        <div className="rounded-[2rem] bg-slate-950 p-8 text-white shadow-xl">
+        <div className="rounded-[2rem] bg-blue-950 p-8 text-white shadow-xl">
           <p className="text-sm font-black uppercase tracking-[0.22em] text-sky-300">Volunteers</p>
           <h1 className="mt-3 text-3xl font-black">Adult volunteers are always welcome</h1>
           <p className="mt-4 text-sm leading-6 text-slate-300">Coaching help, matchday support, admin, fundraising, sponsorship support and committee assistance all make a real difference.</p>
