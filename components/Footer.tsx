@@ -1,4 +1,4 @@
-import { CLUB_EMAIL } from "../data/site";
+import { INFO_EMAIL } from "../data/site";
 import { ClubBadge } from "./ClubBadge";
 import { Icon } from "./Icon";
 
@@ -13,8 +13,8 @@ export function Footer() {
             <p className="text-sm text-slate-300">Friendly grassroots football for the local community.</p>
           </div>
         </div>
-        <a className="flex items-center gap-2 text-sm font-bold text-sky-200 hover:text-white" href={`mailto:${CLUB_EMAIL}`}>
-          <Icon name="mail" className="h-4 w-4" /> {CLUB_EMAIL}
+        <a className="flex items-center gap-2 text-sm font-bold text-sky-200 hover:text-white" href={`mailto:${INFO_EMAIL}`}>
+          <Icon name="mail" className="h-4 w-4" /> {INFO_EMAIL}
         </a>
       </div>
     </footer>

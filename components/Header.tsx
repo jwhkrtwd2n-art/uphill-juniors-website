@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { ClubBadge } from "./ClubBadge";
 import { ButtonLink } from "./ButtonLink";
-import { CLUB_EMAIL, pages } from "../data/site";
+import { INFO_EMAIL, SPONSOR_EMAIL, pages } from "../data/site";
 
 export function Header() {
   const pathname = usePathname();
@@ -31,7 +31,7 @@ export function Header() {
         </nav>
 
         <div className="hidden lg:block">
-          <ButtonLink href={`mailto:${CLUB_EMAIL}`}>Contact</ButtonLink>
+          <ButtonLink href={`mailto:${INFO_EMAIL}`}>Contact</ButtonLink>
         </div>
 
         <button
@@ -68,8 +68,8 @@ export function Header() {
             ))}
           </nav>
           <div className="mx-auto mt-4 grid max-w-7xl gap-3 sm:grid-cols-2">
-            <ButtonLink href={`mailto:${CLUB_EMAIL}?subject=Volunteering%20with%20Uphill%20Juniors%20FC`} variant="sky">Volunteer with us</ButtonLink>
-            <ButtonLink href={`mailto:${CLUB_EMAIL}?subject=Sponsorship%20Enquiry%20-%20Uphill%20Juniors%20FC`}>Sponsor enquiry</ButtonLink>
+            <ButtonLink href={`mailto:${INFO_EMAIL}?subject=Volunteering%20with%20Uphill%20Juniors%20FC`} variant="sky">Volunteer with us</ButtonLink>
+            <ButtonLink href={`mailto:${SPONSOR_EMAIL}?subject=Sponsorship%20Enquiry%20-%20Uphill%20Juniors%20FC`}>Sponsor enquiry</ButtonLink>
           </div>
         </div>
       ) : null}

@@ -2,36 +2,90 @@ import Image from "next/image";
 import { ButtonLink } from "../../components/ButtonLink";
 import { Icon } from "../../components/Icon";
 import { SectionHeading } from "../../components/SectionHeading";
-import { CLUB_EMAIL } from "../../data/site";
-import { sponsorBenefits, sponsorPackages, sponsorShowcase } from "../../data/sponsors";
+import { SponsorInquiryForm } from "../../components/SponsorInquiryForm";
+import { SPONSOR_EMAIL } from "../../data/site";
+import { sponsorClubValues, sponsorPackages, sponsorShowcase, sponsorSocialPromo, sponsorWhy } from "../../data/sponsors";
 
 export default function SponsorsPage() {
   return (
     <main className="px-4 py-16 sm:px-6 lg:px-8">
-      <SectionHeading eyebrow="Sponsors" title="See your brand. Support our community." text="Sponsorship helps fund kit, training equipment, coach development and affordable football for local families. We welcome enquiries from local businesses that want visible community impact." />
+      <SectionHeading
+        eyebrow="Sponsors"
+        title="Support local football. Support local children."
+        text="Uphill Juniors FC is a volunteer-led grassroots football club providing inclusive, affordable and community-focused football opportunities for children and young people."
+      />
 
-      <div className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] border border-slate-200 bg-slate-950 shadow-2xl">
-        <div className="grid gap-0 lg:grid-cols-[1.15fr_0.85fr]">
-          <div className="bg-white p-4 sm:p-6">
-            <a href="/sponsor-mockups.png" target="_blank" rel="noreferrer noopener" className="block w-full transition hover:scale-[1.01]">
-              <Image src="/sponsor-mockups.png" alt="Uphill Juniors FC sponsor mockups" width={1600} height={1000} className="w-full rounded-3xl border border-slate-200 object-cover shadow-sm" />
-            </a>
-          </div>
-          <div className="flex flex-col justify-center p-8 text-white sm:p-10">
-            <p className="text-sm font-black uppercase tracking-[0.22em] text-sky-300">Sponsorship 2026/27</p>
-            <h1 className="mt-3 text-4xl font-black tracking-tight">Partner with Uphill Juniors FC</h1>
-            <p className="mt-5 text-base leading-7 text-slate-300">Our sponsorship packages give local businesses clear visibility while directly supporting children, families and volunteer-led grassroots football.</p>
-            <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-              <ButtonLink href={`mailto:${CLUB_EMAIL}?subject=Sponsorship%20Enquiry%20-%20Uphill%20Juniors%20FC`} variant="sky">Send sponsor enquiry</ButtonLink>
-              <ButtonLink href="/Uphill_Juniors_Landscape_Sponsorship_Brochure.pdf" variant="light">View brochure</ButtonLink>
+      <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="space-y-6 rounded-[2rem] border border-slate-200 bg-white p-8 shadow-xl">
+          <p className="text-sm font-black uppercase tracking-[0.22em] text-sky-300">About Uphill Juniors FC</p>
+          <p className="text-base leading-7 text-slate-700">Based at Broadoak Academy, the club primarily serves the Bourville, Oldmixon and Coronation estates alongside Uphill, Southward and the wider surrounding area. We work across communities that include areas classified within IMD1 deciles, while remaining focused on creating positive, inclusive and affordable football opportunities for all local children and families.</p>
+          <div className="grid gap-6 lg:grid-cols-2">
+            <div className="space-y-4">
+              <h2 className="text-xl font-black text-slate-950">We exist to provide</h2>
+              <ul className="space-y-2 text-sm leading-6 text-slate-700">
+                <li>Safe and structured football opportunities</li>
+                <li>Affordable access to organised sport</li>
+                <li>Positive role models and coaching</li>
+                <li>Inclusive participation for local children</li>
+                <li>Community engagement and development</li>
+                <li>Long-term grassroots football opportunities</li>
+              </ul>
             </div>
+            <div className="space-y-4">
+              <h2 className="text-xl font-black text-slate-950">Volunteer-led club</h2>
+              <p className="text-sm leading-6 text-slate-700">The club operates mixed teams and is committed to supporting participation opportunities for both boys and girls. Volunteers contribute through:</p>
+              <ul className="space-y-2 text-sm leading-6 text-slate-700">
+                <li>Coaching</li>
+                <li>Safeguarding</li>
+                <li>Team administration</li>
+                <li>Fundraising</li>
+                <li>Community engagement</li>
+                <li>Event organisation</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div className="rounded-[2rem] border border-slate-200 bg-slate-950 p-8 text-white shadow-2xl">
+          <p className="text-sm font-black uppercase tracking-[0.22em] text-sky-300">Sponsorship 2026/27</p>
+          <h1 className="mt-3 text-4xl font-black tracking-tight">Partner with Uphill Juniors FC</h1>
+          <p className="mt-5 text-base leading-7 text-slate-300">Your business can help keep grassroots football affordable, support local young people and get visible community recognition through kit, coaching and training sponsorship.</p>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+            <SponsorInquiryForm sponsorEmail={SPONSOR_EMAIL} />
+            <ButtonLink href="/Uphill_Juniors_Landscape_Sponsorship_Brochure.pdf" variant="light">View brochure</ButtonLink>
+          </div>
+          <div className="mt-10 rounded-3xl border border-slate-700 bg-slate-900 p-6">
+            <p className="text-sm font-black uppercase tracking-[0.22em] text-sky-300">Sponsorship priorities</p>
+            <p className="mt-4 text-sm leading-6 text-slate-300">Sponsors may sponsor more than one team, subject to availability. Priority is given to securing main playing kit sponsors before secondary sponsorship positions are allocated. Back-of-shirt sponsorship is only available once a team has secured a main playing kit sponsor.</p>
           </div>
         </div>
       </div>
 
+      <div className="mx-auto mt-10 grid max-w-7xl gap-6 lg:grid-cols-3">
+        {sponsorWhy.map((item) => (
+          <div key={item.title} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+            <h2 className="text-xl font-black text-slate-950">{item.title}</h2>
+            <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-700">
+              {item.items.map((point) => (
+                <li key={point} className="flex gap-3">
+                  <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-sky-100 text-sky-700">✓</span>
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <div className="mx-auto mt-10 max-w-7xl rounded-[2rem] border border-slate-200 bg-white p-8 shadow-xl">
+        <p className="text-sm font-black uppercase tracking-[0.22em] text-sky-300">Sponsorship opportunities</p>
+        <h2 className="mt-3 text-3xl font-black text-slate-950">Support multiple teams with clear sponsor packages</h2>
+        <p className="mt-4 text-sm leading-6 text-slate-600">Choose the right level of visibility for your business with main playing kit, back-of-shirt, coaches and training sponsorship options.</p>
+      </div>
+
       <div className="mx-auto mt-10 grid max-w-7xl gap-5 md:grid-cols-2 lg:grid-cols-4">
         {sponsorPackages.map((sponsor) => (
-          <div key={sponsor.title} className="rounded-3xl border border-sky-100 bg-sky-50 p-6 shadow-sm">
+          <div key={sponsor.title} className="flex h-full flex-col rounded-3xl border border-sky-100 bg-sky-50 p-6 shadow-sm">
             <Icon name="heart" className="h-8 w-8 text-sky-700" />
             <h2 className="mt-5 text-xl font-black text-slate-950">{sponsor.title}</h2>
             <div className="mt-3 flex flex-wrap gap-2">
@@ -39,46 +93,82 @@ export default function SponsorsPage() {
               <p className="inline-flex rounded-full bg-white px-3 py-1 text-sm font-black text-sky-700">{sponsor.availability}</p>
             </div>
             <p className="mt-4 text-sm leading-6 text-slate-700">{sponsor.detail}</p>
+            <div className="mt-6 space-y-3 text-sm text-slate-700">
+              <p className="font-black text-slate-950">Includes</p>
+              <ul className="space-y-2 pl-5 list-disc">
+                {sponsor.includes.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="mt-6 space-y-3 text-sm text-slate-700">
+              <p className="font-black text-slate-950">Benefits</p>
+              <ul className="space-y-2 pl-5 list-disc">
+                {sponsor.benefits.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
           </div>
         ))}
       </div>
 
-      <div className="mx-auto mt-10 grid max-w-7xl gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-        <div className="rounded-[2rem] bg-slate-950 p-8 text-white shadow-xl">
-          <p className="text-sm font-black uppercase tracking-[0.22em] text-sky-300">Why sponsor us?</p>
-          <h2 className="mt-3 text-3xl font-black">Local visibility with real impact</h2>
-          <div className="mt-6 grid gap-3">
-            {sponsorBenefits.map((benefit) => (
-              <div key={benefit} className="flex items-start gap-3 rounded-2xl bg-white/5 p-3">
-                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-sky-400 text-xs font-black text-slate-950">✓</span>
-                <p className="text-sm leading-6 text-slate-200">{benefit}</p>
-              </div>
-            ))}
-          </div>
+      <div className="mx-auto mt-10 grid max-w-7xl gap-8 lg:grid-cols-2">
+        <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-xl">
+          <p className="text-sm font-black uppercase tracking-[0.22em] text-sky-300">Example sponsor styles</p>
+          <h2 className="mt-3 text-3xl font-black text-slate-950">Branding that works on kit</h2>
+          <p className="mt-4 text-sm leading-6 text-slate-600">Sponsor logos can be adapted depending on brand requirements and shirt colour. Examples include:</p>
+          <ul className="mt-6 space-y-3 text-sm leading-6 text-slate-700 pl-5 list-disc">
+            <li>White logo</li>
+            <li>Black logo</li>
+            <li>Full colour logo</li>
+            <li>Stacked logo layout</li>
+            <li>Text-only logo treatment</li>
+          </ul>
         </div>
-        <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
-          <p className="text-sm font-black uppercase tracking-[0.22em] text-sky-700">Sponsor downloads</p>
-          <h2 className="mt-3 text-3xl font-black text-slate-950">Send the pack to potential sponsors</h2>
-          <p className="mt-4 text-sm leading-6 text-slate-600">Use the polished brochure for email and web enquiries, and the printable pack for meetings, local businesses and committee use.</p>
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <ButtonLink href="/Uphill_Juniors_Landscape_Sponsorship_Brochure.pdf">Landscape brochure</ButtonLink>
-            <ButtonLink href="/Uphill_Juniors_Printable_Sponsorship_Pack.pdf" variant="light">Printable pack</ButtonLink>
-          </div>
+        <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-xl">
+          <p className="text-sm font-black uppercase tracking-[0.22em] text-sky-300">Community impact</p>
+          <h2 className="mt-3 text-3xl font-black text-slate-950">Making a difference locally</h2>
+          <ul className="mt-6 space-y-3 text-sm leading-6 text-slate-700 pl-5 list-disc">
+            <li>Structured weekly activity</li>
+            <li>Positive social environments</li>
+            <li>Confidence and teamwork development</li>
+            <li>Physical activity opportunities</li>
+            <li>Safe and supportive coaching</li>
+            <li>Routine, structure and community connection</li>
+          </ul>
         </div>
       </div>
 
-      <div className="mx-auto mt-12 max-w-7xl">
-        <h2 className="mb-5 text-center text-2xl font-black text-slate-950">Sponsor showcase</h2>
-        <p className="mx-auto mb-8 max-w-2xl text-center text-sm leading-6 text-slate-600">New sponsors for next season can be featured here with their logo, package type and link to their business.</p>
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-          {sponsorShowcase.map((sponsor) => (
-            <div key={`${sponsor.name}-${sponsor.type}`} className="rounded-3xl border border-slate-200 bg-white p-6 text-center shadow-sm">
-              <div className="mx-auto mb-5 flex h-24 w-24 items-center justify-center rounded-3xl border-2 border-dashed border-sky-200 bg-sky-50 text-xs font-black text-sky-700">Logo</div>
-              <h3 className="text-lg font-black text-slate-950">{sponsor.name}</h3>
-              <p className="mt-2 text-sm font-bold text-sky-700">{sponsor.type}</p>
-              <p className="mt-3 text-sm leading-6 text-slate-600">{sponsor.note}</p>
-            </div>
+      <div className="mx-auto mt-10 grid max-w-7xl gap-5 lg:grid-cols-4">
+        {sponsorClubValues.map((value) => (
+          <div key={value.title} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+            <h3 className="text-lg font-black text-slate-950">{value.title}</h3>
+            <p className="mt-3 text-sm leading-6 text-slate-700">{value.description}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="mx-auto mt-10 rounded-[2rem] border border-slate-200 bg-white p-8 shadow-xl">
+        <p className="text-sm font-black uppercase tracking-[0.22em] text-sky-300">Social media & promotion</p>
+        <h2 className="mt-3 text-3xl font-black text-slate-950">Reach the local community</h2>
+        <p className="mt-4 text-sm leading-6 text-slate-600">Sponsors may receive exposure through club communication channels and local events.</p>
+        <ul className="mt-6 grid gap-3 text-sm leading-6 text-slate-700 sm:grid-cols-2">
+          {sponsorSocialPromo.map((item) => (
+            <li key={item} className="flex gap-3">
+              <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-sky-100 text-sky-700">✓</span>
+              <span>{item}</span>
+            </li>
           ))}
+        </ul>
+      </div>
+
+      <div className="mx-auto mt-12 max-w-7xl text-center">
+        <p className="text-sm font-black uppercase tracking-[0.22em] text-sky-700">Ready to support?</p>
+        <p className="mt-3 text-base leading-7 text-slate-700">Contact the club to discuss sponsorship options, availability and brand placement for the season.</p>
+        <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+          <SponsorInquiryForm sponsorEmail={SPONSOR_EMAIL} />
+          <ButtonLink href="/Uphill_Juniors_Landscape_Sponsorship_Brochure.pdf" variant="light">View brochure</ButtonLink>
         </div>
       </div>
     </main>
