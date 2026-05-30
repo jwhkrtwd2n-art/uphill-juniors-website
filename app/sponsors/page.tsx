@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Icon } from "../../components/Icon";
 import { SectionHeading } from "../../components/SectionHeading";
 import { SponsorInquiryFromUrl } from "../../components/SponsorInquiryFromUrl";
@@ -42,7 +43,9 @@ export default function SponsorsPage() {
             local young people and get visible community recognition.
           </p>
           <div className="mt-6">
-            <SponsorInquiryFromUrl sponsorEmail={SPONSOR_EMAIL} />
+            <Suspense fallback={null}>
+  <SponsorInquiryFromUrl sponsorEmail={SPONSOR_EMAIL} />
+</Suspense>
           </div>
         </div>
       </div>
@@ -125,7 +128,9 @@ export default function SponsorsPage() {
           brand placement for the season.
         </p>
         <div className="mt-6 flex justify-center">
-          <SponsorInquiryFromUrl sponsorEmail={SPONSOR_EMAIL} />
+          <Suspense fallback={null}>
+  <SponsorInquiryFromUrl sponsorEmail={SPONSOR_EMAIL} />
+</Suspense>
         </div>
       </div>
     </main>
