@@ -1,6 +1,6 @@
 import { Icon } from "../../components/Icon";
 import { SectionHeading } from "../../components/SectionHeading";
-import { SponsorInquiryForm } from "../../components/SponsorInquiryForm";
+import { SponsorInquiryFromUrl } from "../../components/SponsorInquiryFromUrl";
 import { SPONSOR_EMAIL } from "../../data/site";
 import {
   sponsorClubValues,
@@ -42,7 +42,7 @@ export default function SponsorsPage() {
             local young people and get visible community recognition.
           </p>
           <div className="mt-6">
-            <SponsorInquiryForm sponsorEmail={SPONSOR_EMAIL} />
+            <SponsorInquiryFromUrl sponsorEmail={SPONSOR_EMAIL} />
           </div>
         </div>
       </div>
@@ -125,7 +125,7 @@ export default function SponsorsPage() {
           brand placement for the season.
         </p>
         <div className="mt-6 flex justify-center">
-          <SponsorInquiryForm sponsorEmail={SPONSOR_EMAIL} />
+          <SponsorInquiryFromUrl sponsorEmail={SPONSOR_EMAIL} />
         </div>
       </div>
     </main>

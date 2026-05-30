@@ -4,6 +4,9 @@ import { useState } from "react";
 
 type SponsorInquiryFormProps = {
   sponsorEmail: string;
+  initialPackage?: string;
+  initialTeam?: string;
+  autoOpen?: boolean;
 };
 
 const PACKAGE_OPTIONS = [
@@ -37,10 +40,16 @@ const TRAINING_TEAM_OPTIONS = [
 
 const CLUB_WIDE_OPTIONS = ["Club-wide / not team specific"];
 
+function getPackageFromCode(packageCode?: string) {
+  if (packageCode === "main") return "Main Playing Kit Sponsor - £750";
+  if (packageCode === "training") return "Training Top Sponsor - £500";
+  if (packageCode === "back") return "Back of Shirt Sponsor - £300";
+  if (packageCode === "coaches") return "Coaches Kit Sponsor - £600";
+  return "General sponsorship enquiry";
+}
+
 function getTeamOptions(selectedPackage: string) {
-  if (selectedPackage.startsWith("Coaches Kit Sponsor")) {
-    return CLUB_WIDE_OPTIONS;
-  }
+  if (selectedPackage.startsWith("Coaches Kit Sponsor")) return CLUB_WIDE_OPTIONS;
 
   if (
     selectedPackage.startsWith("Main Playing Kit Sponsor") ||
@@ -56,13 +65,33 @@ function getTeamOptions(selectedPackage: string) {
   return CLUB_WIDE_OPTIONS;
 }
 
-export function SponsorInquiryForm({ sponsorEmail }: SponsorInquiryFormProps) {
-  const [isOpen, setIsOpen] = useState(false);
+function getInitialTeam(selectedPackage: string, initialTeam?: string) {
+  const options = getTeamOptions(selectedPackage);
+  return initialTeam && options.includes(initialTeam) ? initialTeam : options[0];
+}
+
+function shouldShowTeam(selectedPackage: string) {
+  return !(
+    selectedPackage.startsWith("Coaches Kit Sponsor") ||
+    selectedPackage.startsWith("General sponsorship")
+  );
+}
+
+export function SponsorInquiryForm({
+  sponsorEmail,
+  initialPackage,
+  initialTeam,
+  autoOpen = false,
+}: SponsorInquiryFormProps) {
+  const startingPackage = getPackageFromCode(initialPackage);
+  const startingTeam = getInitialTeam(startingPackage, initialTeam);
+
+  const [isOpen, setIsOpen] = useState(autoOpen);
   const [form, setForm] = useState({
     name: "",
     business: "",
-    package: PACKAGE_OPTIONS[0],
-    team: getTeamOptions(PACKAGE_OPTIONS[0])[0],
+    package: startingPackage,
+    team: startingTeam,
     message: "",
   });
 
@@ -109,8 +138,8 @@ export function SponsorInquiryForm({ sponsorEmail }: SponsorInquiryFormProps) {
       setForm({
         name: "",
         business: "",
-        package: PACKAGE_OPTIONS[0],
-        team: getTeamOptions(PACKAGE_OPTIONS[0])[0],
+        package: startingPackage,
+        team: startingTeam,
         message: "",
       });
     } catch {
@@ -120,6 +149,7 @@ export function SponsorInquiryForm({ sponsorEmail }: SponsorInquiryFormProps) {
   };
 
   const availableTeamOptions = getTeamOptions(form.package);
+  const showTeam = shouldShowTeam(form.package);
 
   return (
     <div className="space-y-4">
@@ -156,7 +186,7 @@ export function SponsorInquiryForm({ sponsorEmail }: SponsorInquiryFormProps) {
             </label>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className={showTeam ? "grid gap-4 sm:grid-cols-2" : "grid gap-4"}>
             <label className="space-y-2 text-sm font-bold text-slate-700">
               Sponsorship type
               <select
@@ -171,19 +201,21 @@ export function SponsorInquiryForm({ sponsorEmail }: SponsorInquiryFormProps) {
               </select>
             </label>
 
-            <label className="space-y-2 text-sm font-bold text-slate-700">
-              Team / age group
-              <select
-                name="team"
-                value={form.team}
-                onChange={handleChange}
-                className="w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100"
-              >
-                {availableTeamOptions.map((option) => (
-                  <option key={option} value={option}>{option}</option>
-                ))}
-              </select>
-            </label>
+            {showTeam ? (
+              <label className="space-y-2 text-sm font-bold text-slate-700">
+                Team / age group
+                <select
+                  name="team"
+                  value={form.team}
+                  onChange={handleChange}
+                  className="w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100"
+                >
+                  {availableTeamOptions.map((option) => (
+                    <option key={option} value={option}>{option}</option>
+                  ))}
+                </select>
+              </label>
+            ) : null}
           </div>
 
           <label className="space-y-2 text-sm font-bold text-slate-700">
