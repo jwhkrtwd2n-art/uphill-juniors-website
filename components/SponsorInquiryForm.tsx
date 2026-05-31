@@ -10,7 +10,7 @@ type SponsorInquiryFormProps = {
 };
 
 const PACKAGE_OPTIONS = [
-  "Main Playing Kit Sponsor - £750",
+  "Main Playing Kit Sponsor - £650",
   "Training Top Sponsor - £500",
   "Back of Shirt Sponsor - £300",
   "Coaches Kit Sponsor - £600",
@@ -41,7 +41,7 @@ const TRAINING_TEAM_OPTIONS = [
 const CLUB_WIDE_OPTIONS = ["Club-wide / not team specific"];
 
 function getPackageFromCode(packageCode?: string) {
-  if (packageCode === "main") return "Main Playing Kit Sponsor - £750";
+  if (packageCode === "main") return "Main Playing Kit Sponsor - £650";
   if (packageCode === "training") return "Training Top Sponsor - £500";
   if (packageCode === "back") return "Back of Shirt Sponsor - £300";
   if (packageCode === "coaches") return "Coaches Kit Sponsor - £600";

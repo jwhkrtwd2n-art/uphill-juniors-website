@@ -1,7 +1,7 @@
 export const sponsorPackages = [
   {
     title: "Main Playing Kit Sponsor",
-    price: "£750 per team",
+    price: "£650 per team",
     availability: "7 teams available",
     detail: "Premium front-of-shirt visibility on playing kit, with strong exposure across matchdays and team content.",
     includes: [

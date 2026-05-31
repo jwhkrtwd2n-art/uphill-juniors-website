@@ -1,14 +1,52 @@
+import Image from "next/image";
 import { Suspense } from "react";
-import { Icon } from "../../components/Icon";
 import { SectionHeading } from "../../components/SectionHeading";
 import { SponsorInquiryFromUrl } from "../../components/SponsorInquiryFromUrl";
 import { SPONSOR_EMAIL } from "../../data/site";
 import {
   sponsorClubValues,
-  sponsorPackages,
   sponsorSocialPromo,
   sponsorWhy,
 } from "../../data/sponsors";
+
+const sponsorMockups = [
+  {
+    title: "Main Kit Sponsor",
+    price: "£650 per team",
+    availability: "7 teams available",
+    image: "/main-kit-sponsor.png",
+    alt: "Main kit sponsor mock-up",
+    detail:
+      "Premium front-of-shirt sponsorship with maximum visibility on matchdays, social media and club photography.",
+  },
+  {
+    title: "Back Sponsor",
+    price: "£300 per team",
+    availability: "7 teams available",
+    image: "/back-sponsor.png",
+    alt: "Back sponsor mock-up",
+    detail:
+      "Your logo displayed beneath the squad number on the rear of a team's playing shirt.",
+  },
+  {
+    title: "Training Sponsor",
+    price: "£500 per team",
+    availability: "8 teams available",
+    image: "/training-sponsor.png",
+    alt: "Training sponsor mock-up",
+    detail:
+      "Featured on training apparel worn throughout the season at training sessions and club events.",
+  },
+  {
+    title: "Coach Sponsor",
+    price: "£600",
+    availability: "Club-wide package",
+    image: "/coach-sponsor.png",
+    alt: "Coach sponsor mock-up",
+    detail:
+      "Prominent branding on coaching staff apparel, providing visibility across multiple age groups throughout the season.",
+  },
+];
 
 export default function SponsorsPage() {
   return (
@@ -44,20 +82,27 @@ export default function SponsorsPage() {
           </p>
           <div className="mt-6">
             <Suspense fallback={null}>
-  <SponsorInquiryFromUrl sponsorEmail={SPONSOR_EMAIL} />
-</Suspense>
+              <SponsorInquiryFromUrl sponsorEmail={SPONSOR_EMAIL} />
+            </Suspense>
           </div>
         </div>
       </div>
 
       <div className="mx-auto mt-10 grid max-w-7xl gap-6 lg:grid-cols-3">
         {sponsorWhy.map((item) => (
-          <div key={item.title} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 className="text-xl font-black text-slate-950">{item.title}</h2>
+          <div
+            key={item.title}
+            className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
+          >
+            <h2 className="text-xl font-black text-slate-950">
+              {item.title}
+            </h2>
             <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-700">
               {item.items.map((point) => (
                 <li key={point} className="flex gap-3">
-                  <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-sky-100 text-sky-700">✓</span>
+                  <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-sky-100 text-sky-700">
+                    ✓
+                  </span>
                   <span>{point}</span>
                 </li>
               ))}
@@ -79,25 +124,54 @@ export default function SponsorsPage() {
         </p>
       </div>
 
-      <div className="mx-auto mt-10 grid max-w-7xl gap-5 md:grid-cols-2 lg:grid-cols-4">
-        {sponsorPackages.map((sponsor) => (
-          <div key={sponsor.title} className="flex h-full flex-col rounded-3xl border border-sky-100 bg-sky-50 p-6 shadow-sm">
-            <Icon name="heart" className="h-8 w-8 text-sky-700" />
-            <h2 className="mt-5 text-xl font-black text-slate-950">{sponsor.title}</h2>
-            <div className="mt-3 flex flex-wrap gap-2">
-              <p className="inline-flex rounded-full bg-blue-950 px-3 py-1 text-sm font-black text-white">{sponsor.price}</p>
-              <p className="inline-flex rounded-full bg-white px-3 py-1 text-sm font-black text-sky-700">{sponsor.availability}</p>
+      <div className="mx-auto mt-10 grid max-w-7xl gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {sponsorMockups.map((sponsor) => (
+          <div
+            key={sponsor.title}
+            className="overflow-hidden rounded-3xl border border-sky-100 bg-sky-50 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+          >
+            <div className="flex h-[380px] items-center justify-center bg-white p-4">
+              <Image
+                src={sponsor.image}
+                alt={sponsor.alt}
+                width={600}
+                height={600}
+                className="h-auto w-full object-contain"
+              />
             </div>
-            <p className="mt-4 text-sm leading-6 text-slate-700">{sponsor.detail}</p>
+
+            <div className="flex flex-1 flex-col p-6">
+              <h2 className="text-xl font-black text-slate-950">
+                {sponsor.title}
+              </h2>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <p className="inline-flex rounded-full bg-blue-950 px-3 py-1 text-sm font-black text-white">
+                  {sponsor.price}
+                </p>
+                <p className="inline-flex rounded-full bg-white px-3 py-1 text-sm font-black text-sky-700">
+                  {sponsor.availability}
+                </p>
+              </div>
+              <p className="mt-4 text-sm leading-6 text-slate-700">
+                {sponsor.detail}
+              </p>
+            </div>
           </div>
         ))}
       </div>
 
       <div className="mx-auto mt-10 grid max-w-7xl gap-5 lg:grid-cols-4">
         {sponsorClubValues.map((value) => (
-          <div key={value.title} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h3 className="text-lg font-black text-slate-950">{value.title}</h3>
-            <p className="mt-3 text-sm leading-6 text-slate-700">{value.description}</p>
+          <div
+            key={value.title}
+            className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
+          >
+            <h3 className="text-lg font-black text-slate-950">
+              {value.title}
+            </h3>
+            <p className="mt-3 text-sm leading-6 text-slate-700">
+              {value.description}
+            </p>
           </div>
         ))}
       </div>
@@ -112,7 +186,9 @@ export default function SponsorsPage() {
         <ul className="mt-6 grid gap-3 text-sm leading-6 text-slate-700 sm:grid-cols-2">
           {sponsorSocialPromo.map((item) => (
             <li key={item} className="flex gap-3">
-              <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-sky-100 text-sky-700">✓</span>
+              <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-sky-100 text-sky-700">
+                ✓
+              </span>
               <span>{item}</span>
             </li>
           ))}
@@ -129,8 +205,8 @@ export default function SponsorsPage() {
         </p>
         <div className="mt-6 flex justify-center">
           <Suspense fallback={null}>
-  <SponsorInquiryFromUrl sponsorEmail={SPONSOR_EMAIL} />
-</Suspense>
+            <SponsorInquiryFromUrl sponsorEmail={SPONSOR_EMAIL} />
+          </Suspense>
         </div>
       </div>
     </main>
