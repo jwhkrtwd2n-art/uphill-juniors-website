@@ -90,6 +90,8 @@ export function SponsorInquiryForm({
   const [form, setForm] = useState({
     name: "",
     business: "",
+    phone: "",
+    email: "",
     package: startingPackage,
     team: startingTeam,
     message: "",
@@ -136,12 +138,14 @@ export function SponsorInquiryForm({
 
       setStatus("success");
       setForm({
-        name: "",
-        business: "",
-        package: startingPackage,
-        team: startingTeam,
-        message: "",
-      });
+  name: "",
+  business: "",
+  email: "",
+  phone: "",
+  package: startingPackage,
+  team: startingTeam,
+  message: "",
+});
     } catch {
       setError(`Unable to send the enquiry right now. Please email ${sponsorEmail}.`);
       setStatus("error");
@@ -185,7 +189,30 @@ export function SponsorInquiryForm({
               />
             </label>
           </div>
+<div className="grid gap-4 sm:grid-cols-2">
+  <label className="space-y-2 text-sm font-bold text-slate-700">
+    Email address
+    <input
+      type="email"
+      name="email"
+      value={form.email}
+      onChange={handleChange}
+      required
+      className="w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100"
+    />
+  </label>
 
+  <label className="space-y-2 text-sm font-bold text-slate-700">
+    Phone number
+    <input
+      type="tel"
+      name="phone"
+      value={form.phone}
+      onChange={handleChange}
+      className="w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100"
+    />
+  </label>
+</div>
           <div className={showTeam ? "grid gap-4 sm:grid-cols-2" : "grid gap-4"}>
             <label className="space-y-2 text-sm font-bold text-slate-700">
               Sponsorship type
