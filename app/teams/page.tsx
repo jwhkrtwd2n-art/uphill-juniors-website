@@ -1,10 +1,16 @@
+import Link from "next/link";
+
 import { Icon } from "../../components/Icon";
 import { ButtonLink } from "../../components/ButtonLink";
 import { SectionHeading } from "../../components/SectionHeading";
 import { teams } from "../../data/teams";
 
+function isRecruiting(status?: string) {
+  return status === "Recruiting";
+}
+
 function getStatusClasses(status?: string) {
-  if (status === "Recruiting Players") {
+  if (isRecruiting(status)) {
     return "bg-green-100 text-green-700";
   }
 
@@ -49,13 +55,30 @@ export default function TeamsPage() {
                 </p>
 
                 {team.status ? (
-                  <p
-                    className={`inline-flex rounded-full px-3 py-1 text-xs font-black ${getStatusClasses(
-                      team.status
-                    )}`}
+                  <span
+                    className={
+                      isRecruiting(team.status)
+                        ? "relative inline-flex items-center"
+                        : "inline-flex"
+                    }
                   >
-                    {team.status}
-                  </p>
+                    <span
+                      className={`inline-flex rounded-full px-3 py-1 text-xs font-black ${getStatusClasses(
+                        team.status
+                      )}`}
+                    >
+                      {team.status}
+                    </span>
+
+                    {isRecruiting(team.status) ? (
+                      <Link
+                        href="/contact"
+                        className="absolute right-0 top-0 z-10 inline-flex translate-x-1/3 -translate-y-3/4 animate-pulse rounded-full bg-green-700 px-3 py-1 text-xs font-black text-white shadow-sm transition hover:bg-green-800"
+                      >
+                        Enquire
+                      </Link>
+                    ) : null}
+                  </span>
                 ) : null}
 
                 {team.sponsorAvailability ? (

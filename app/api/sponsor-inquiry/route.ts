@@ -58,7 +58,9 @@ export async function POST(request: Request) {
     }
 
     const transporter = getTransporter();
-const subject = `Sponsorship enquiry - ${packageType} - ${team || "Club-wide"} - ${business || name}`;
+    const subject = `Sponsorship enquiry - ${packageType} - ${
+      team || "Club-wide"
+    } - ${business || name}`;
     const text = `Name: ${name}
 Business: ${business || "Not provided"}
 Email: ${email}

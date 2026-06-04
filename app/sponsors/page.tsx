@@ -12,7 +12,7 @@ import {
 const sponsorMockups = [
   {
     title: "Main Kit Sponsor",
-    price: "£650 per team",
+    price: "GBP 650 per team",
     availability: "7 teams available",
     image: "/main-kit-sponsor.png",
     alt: "Main kit sponsor mock-up",
@@ -21,7 +21,7 @@ const sponsorMockups = [
   },
   {
     title: "Back Sponsor",
-    price: "£300 per team",
+    price: "GBP 300 per team",
     availability: "7 teams available",
     image: "/back-sponsor.png",
     alt: "Back sponsor mock-up",
@@ -30,7 +30,7 @@ const sponsorMockups = [
   },
   {
     title: "Training Sponsor",
-    price: "£500 per team",
+    price: "GBP 500 per team",
     availability: "8 teams available",
     image: "/training-sponsor.png",
     alt: "Training sponsor mock-up",
@@ -39,7 +39,7 @@ const sponsorMockups = [
   },
   {
     title: "Coach Sponsor",
-    price: "£600",
+    price: "GBP 600",
     availability: "Club-wide package",
     image: "/coach-sponsor.png",
     alt: "Coach sponsor mock-up",
@@ -54,7 +54,7 @@ export default function SponsorsPage() {
       <SectionHeading
         eyebrow="Sponsors"
         title="Support local football. Support local children."
-        text="Uphill Juniors FC is a volunteer-led grassroots football club providing inclusive, affordable and community-focused football opportunities for children and young people."
+        text="Uphill Juniors FC is a volunteer-led grassroots football club providing inclusive, affordable and community-focused football opportunities for children and young people. Sponsorship helps fund kit, equipment, facility costs and keeping football affordable for local families."
       />
 
       <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.95fr_1.05fr]">
@@ -101,7 +101,7 @@ export default function SponsorsPage() {
               {item.items.map((point) => (
                 <li key={point} className="flex gap-3">
                   <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-sky-100 text-sky-700">
-                    ✓
+                    Yes
                   </span>
                   <span>{point}</span>
                 </li>
@@ -187,7 +187,7 @@ export default function SponsorsPage() {
           {sponsorSocialPromo.map((item) => (
             <li key={item} className="flex gap-3">
               <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-sky-100 text-sky-700">
-                ✓
+                Yes
               </span>
               <span>{item}</span>
             </li>

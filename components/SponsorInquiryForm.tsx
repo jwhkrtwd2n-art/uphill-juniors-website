@@ -10,10 +10,10 @@ type SponsorInquiryFormProps = {
 };
 
 const PACKAGE_OPTIONS = [
-  "Main Playing Kit Sponsor - £650",
-  "Training Top Sponsor - £500",
-  "Back of Shirt Sponsor - £300",
-  "Coaches Kit Sponsor - £600",
+  "Main Playing Kit Sponsor - GBP 650",
+  "Training Top Sponsor - GBP 500",
+  "Back of Shirt Sponsor - GBP 300",
+  "Coaches Kit Sponsor - GBP 600",
   "General sponsorship enquiry",
 ];
 
@@ -41,10 +41,10 @@ const TRAINING_TEAM_OPTIONS = [
 const CLUB_WIDE_OPTIONS = ["Club-wide / not team specific"];
 
 function getPackageFromCode(packageCode?: string) {
-  if (packageCode === "main") return "Main Playing Kit Sponsor - £650";
-  if (packageCode === "training") return "Training Top Sponsor - £500";
-  if (packageCode === "back") return "Back of Shirt Sponsor - £300";
-  if (packageCode === "coaches") return "Coaches Kit Sponsor - £600";
+  if (packageCode === "main") return "Main Playing Kit Sponsor - GBP 650";
+  if (packageCode === "training") return "Training Top Sponsor - GBP 500";
+  if (packageCode === "back") return "Back of Shirt Sponsor - GBP 300";
+  if (packageCode === "coaches") return "Coaches Kit Sponsor - GBP 600";
   return "General sponsorship enquiry";
 }
 
@@ -280,7 +280,7 @@ export function SponsorInquiryForm({
                 disabled={status === "sending"}
                 className="inline-flex items-center justify-center rounded-full bg-sky-600 px-6 py-3 text-sm font-black text-white transition hover:bg-sky-700 disabled:cursor-not-allowed disabled:bg-slate-400"
               >
-                {status === "sending" ? "Sending…" : "Send enquiry"}
+                {status === "sending" ? "Sending..." : "Send enquiry"}
               </button>
             </div>
           </div>

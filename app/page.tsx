@@ -3,10 +3,13 @@ import { ClubBadge } from "../components/ClubBadge";
 import { ButtonLink } from "../components/ButtonLink";
 import { Icon } from "../components/Icon";
 import { SocialSection } from "../components/SocialSection";
+import { VOLUNTEER_EMAIL } from "../data/site";
+
+const volunteerSubject = "Volunteering with Uphill Juniors FC";
 
 const stats = [
   { label: "Founded", value: "2021" },
-  { label: "Age groups", value: "U6–U16" },
+  { label: "Age groups", value: "U6-U16" },
   { label: "Award", value: "Somerset FA 2022" },
   { label: "Club model", value: "Volunteer-led" },
 ];
@@ -41,7 +44,10 @@ export default function HomePage() {
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <ButtonLink href="/contact" variant="sky">
+              <ButtonLink
+                href={`mailto:${VOLUNTEER_EMAIL}?subject=${encodeURIComponent(volunteerSubject)}`}
+                variant="sky"
+              >
                 Volunteer with us
               </ButtonLink>
               <ButtonLink href="/sponsors" variant="light">
@@ -103,13 +109,13 @@ export default function HomePage() {
               Volunteers wanted
             </p>
             <h2 className="mt-3 text-4xl font-black">
-              We are not actively recruiting players, but adult volunteers are always welcome.
+              Our age group availability can be limited, but adult volunteers are always welcome.
             </h2>
           </div>
 
           <div className="rounded-[2rem] bg-white p-8 text-slate-950 shadow-xl">
             <p className="text-base leading-7 text-slate-700">
-              Many of our age groups are currently oversubscribed, but the club is always looking for adults who can support coaching, matchdays, admin, fundraising, sponsorship and events.
+              The club is always looking for adults who can support coaching, matchdays, admin, fundraising, sponsorship and events.
             </p>
 
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
@@ -123,7 +129,7 @@ export default function HomePage() {
               ].map((item) => (
                 <div key={item} className="flex items-center gap-3 rounded-2xl bg-sky-50 p-3">
                   <span className="flex h-6 w-6 items-center justify-center rounded-full bg-sky-600 text-xs font-black text-white">
-                    ✓
+                    Yes
                   </span>
                   <span className="text-sm font-bold text-slate-700">{item}</span>
                 </div>
@@ -131,7 +137,10 @@ export default function HomePage() {
             </div>
 
             <div className="mt-6">
-              <ButtonLink href="/contact" variant="sky">
+              <ButtonLink
+                href={`mailto:${VOLUNTEER_EMAIL}?subject=${encodeURIComponent(volunteerSubject)}`}
+                variant="sky"
+              >
                 Ask about volunteering
               </ButtonLink>
             </div>

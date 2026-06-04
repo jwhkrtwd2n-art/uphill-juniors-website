@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { ClubBadge } from "./ClubBadge";
 import { ButtonLink } from "./ButtonLink";
-import { INFO_EMAIL, SPONSOR_EMAIL, pages } from "../data/site";
+import { CLUB_SHOP_URL, pages } from "../data/site";
 
 export function Header() {
   const pathname = usePathname();
@@ -18,7 +18,7 @@ export function Header() {
           <ClubBadge className="h-14 w-14" size={72} />
           <div>
             <p className="text-lg font-black leading-tight text-slate-950">Uphill Juniors FC</p>
-            <p className="text-xs font-bold text-sky-700">Football • Family • Community</p>
+            <p className="text-xs font-bold text-sky-700">Football / Family / Community</p>
           </div>
         </Link>
 
@@ -28,11 +28,15 @@ export function Header() {
               {page.label}
             </Link>
           ))}
+          <a
+            href={CLUB_SHOP_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="hover:text-sky-700"
+          >
+            Shop
+          </a>
         </nav>
-
-        <div className="hidden lg:block">
-          <ButtonLink href={`mailto:${INFO_EMAIL}`}>Contact</ButtonLink>
-        </div>
 
         <button
           type="button"
@@ -66,10 +70,19 @@ export function Header() {
                 {page.label}
               </Link>
             ))}
+            <a
+              href={CLUB_SHOP_URL}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => setMobileMenuOpen(false)}
+              className="rounded-2xl px-4 py-3 text-left text-base font-black text-slate-800 hover:bg-sky-50 hover:text-sky-700"
+            >
+              Shop
+            </a>
           </nav>
           <div className="mx-auto mt-4 grid max-w-7xl gap-3 sm:grid-cols-2">
-            <ButtonLink href={`mailto:${INFO_EMAIL}?subject=Volunteering%20with%20Uphill%20Juniors%20FC`} variant="sky">Volunteer with us</ButtonLink>
-            <ButtonLink href={`mailto:${SPONSOR_EMAIL}?subject=Sponsorship%20Enquiry%20-%20Uphill%20Juniors%20FC`}>Sponsor enquiry</ButtonLink>
+            <ButtonLink href="/contact" variant="sky">Contact the club</ButtonLink>
+            <ButtonLink href="/sponsors?package=general">Sponsor enquiry</ButtonLink>
           </div>
         </div>
       ) : null}
