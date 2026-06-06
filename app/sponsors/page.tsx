@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Suspense } from "react";
 import { SectionHeading } from "../../components/SectionHeading";
 import { SponsorInquiryFromUrl } from "../../components/SponsorInquiryFromUrl";
+import { SponsorInquiryForm } from "../../components/SponsorInquiryForm";
 import { SPONSOR_EMAIL } from "../../data/site";
 import {
   sponsorClubValues,
@@ -64,7 +65,7 @@ export default function SponsorsPage() {
           </p>
           <p className="text-base leading-7 text-slate-700">
             Based at Broadoak Academy, the club primarily serves the Bourville,
-            Oldmixon and Coronation estates alongside Uphill, Southward and the
+            Oldmixon and Coronation estates alongside Uphill, South Ward and the
             wider surrounding area.
           </p>
         </div>
@@ -204,9 +205,7 @@ export default function SponsorsPage() {
           brand placement for the season.
         </p>
         <div className="mt-6 flex justify-center">
-          <Suspense fallback={null}>
-            <SponsorInquiryFromUrl sponsorEmail={SPONSOR_EMAIL} />
-          </Suspense>
+          <SponsorInquiryForm sponsorEmail={SPONSOR_EMAIL} />
         </div>
       </div>
     </main>

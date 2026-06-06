@@ -1,11 +1,10 @@
 import Image from "next/image";
 import { ClubBadge } from "../components/ClubBadge";
-import { ButtonLink } from "../components/ButtonLink";
 import { Icon } from "../components/Icon";
 import { SocialSection } from "../components/SocialSection";
-import { VOLUNTEER_EMAIL } from "../data/site";
-
-const volunteerSubject = "Volunteering with Uphill Juniors FC";
+import { SponsorInquiryForm } from "../components/SponsorInquiryForm";
+import { VolunteerInquiryForm } from "../components/VolunteerInquiryForm";
+import { SPONSOR_EMAIL } from "../data/site";
 
 const stats = [
   { label: "Founded", value: "2021" },
@@ -40,19 +39,19 @@ export default function HomePage() {
             </h1>
 
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-700">
-              Uphill Juniors FC provides inclusive, affordable and community-focused football for children and young people across Uphill, Bournville, Oldmixon, Coronation Estate, Southward and the wider local area.
+              Uphill Juniors FC provides inclusive, affordable and community-focused football for children and young people across Uphill, Bournville, Oldmixon, Coronation Estate, South Ward and the wider local area.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <ButtonLink
-                href={`mailto:${VOLUNTEER_EMAIL}?subject=${encodeURIComponent(volunteerSubject)}`}
-                variant="sky"
-              >
-                Volunteer with us
-              </ButtonLink>
-              <ButtonLink href="/sponsors" variant="light">
-                Sponsor the club
-              </ButtonLink>
+              <VolunteerInquiryForm
+                buttonLabel="Volunteer with us"
+                buttonVariant="sky"
+              />
+              <SponsorInquiryForm
+                sponsorEmail={SPONSOR_EMAIL}
+                buttonLabel="Sponsor the club"
+                buttonVariant="light"
+              />
             </div>
           </div>
 
@@ -120,29 +119,27 @@ export default function HomePage() {
 
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
               {[
-                "Coaching support",
-                "Matchday help",
-                "Fundraising",
-                "Sponsorship support",
-                "Admin help",
-                "Event support",
+                { label: "Coaching support", icon: "people" },
+                { label: "Matchday help", icon: "calendar" },
+                { label: "Fundraising", icon: "heart" },
+                { label: "Sponsorship support", icon: "megaphone" },
+                { label: "Admin help", icon: "mail" },
+                { label: "Event support", icon: "calendar" },
               ].map((item) => (
-                <div key={item} className="flex items-center gap-3 rounded-2xl bg-sky-50 p-3">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-sky-600 text-xs font-black text-white">
-                    Yes
+                <div key={item.label} className="flex items-center gap-3 rounded-2xl bg-sky-50 p-3">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-sky-600 text-white">
+                    <Icon name={item.icon} className="h-4 w-4" />
                   </span>
-                  <span className="text-sm font-bold text-slate-700">{item}</span>
+                  <span className="text-sm font-bold text-slate-700">{item.label}</span>
                 </div>
               ))}
             </div>
 
             <div className="mt-6">
-              <ButtonLink
-                href={`mailto:${VOLUNTEER_EMAIL}?subject=${encodeURIComponent(volunteerSubject)}`}
-                variant="sky"
-              >
-                Ask about volunteering
-              </ButtonLink>
+              <VolunteerInquiryForm
+                buttonLabel="Ask about volunteering"
+                buttonVariant="sky"
+              />
             </div>
           </div>
         </div>

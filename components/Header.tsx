@@ -5,7 +5,8 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { ClubBadge } from "./ClubBadge";
 import { ButtonLink } from "./ButtonLink";
-import { CLUB_SHOP_URL, pages } from "../data/site";
+import { SponsorInquiryForm } from "./SponsorInquiryForm";
+import { CLUB_SHOP_URL, pages, SPONSOR_EMAIL } from "../data/site";
 
 export function Header() {
   const pathname = usePathname();
@@ -82,7 +83,10 @@ export function Header() {
           </nav>
           <div className="mx-auto mt-4 grid max-w-7xl gap-3 sm:grid-cols-2">
             <ButtonLink href="/contact" variant="sky">Contact the club</ButtonLink>
-            <ButtonLink href="/sponsors?package=general">Sponsor enquiry</ButtonLink>
+            <SponsorInquiryForm
+              sponsorEmail={SPONSOR_EMAIL}
+              className="w-full"
+            />
           </div>
         </div>
       ) : null}

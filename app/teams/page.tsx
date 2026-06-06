@@ -1,8 +1,9 @@
 import Link from "next/link";
 
 import { Icon } from "../../components/Icon";
-import { ButtonLink } from "../../components/ButtonLink";
 import { SectionHeading } from "../../components/SectionHeading";
+import { SponsorInquiryForm } from "../../components/SponsorInquiryForm";
+import { SPONSOR_EMAIL } from "../../data/site";
 import { teams } from "../../data/teams";
 
 function isRecruiting(status?: string) {
@@ -72,7 +73,7 @@ export default function TeamsPage() {
 
                     {isRecruiting(team.status) ? (
                       <Link
-                        href="/contact"
+                        href="/contact#player-enquiry"
                         className="absolute right-0 top-0 z-10 inline-flex translate-x-1/3 -translate-y-3/4 animate-pulse rounded-full bg-green-700 px-3 py-1 text-xs font-black text-white shadow-sm transition hover:bg-green-800"
                       >
                         Enquire
@@ -100,14 +101,18 @@ export default function TeamsPage() {
             {team.sponsorOpportunities?.length ? (
               <div className="mt-auto flex flex-wrap gap-3 border-t border-slate-100 pt-6">
                 {team.sponsorOpportunities.map((opportunity) => (
-                  <ButtonLink
+                  <SponsorInquiryForm
                     key={opportunity.label}
-                    href={opportunity.href}
-                    variant="sky"
+                    sponsorEmail={SPONSOR_EMAIL}
+                    initialPackage={
+                      new URLSearchParams(opportunity.href.split("?")[1]).get(
+                        "package"
+                      ) ?? undefined
+                    }
+                    initialTeam={team.name}
+                    buttonLabel={opportunity.label}
                     className="whitespace-nowrap"
-                  >
-                    {opportunity.label}
-                  </ButtonLink>
+                  />
                 ))}
               </div>
             ) : null}

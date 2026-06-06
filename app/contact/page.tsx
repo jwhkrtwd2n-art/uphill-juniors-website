@@ -1,9 +1,8 @@
-import { ButtonLink } from "../../components/ButtonLink";
+import { PlayerInquiryForm } from "../../components/PlayerInquiryForm";
 import { SectionHeading } from "../../components/SectionHeading";
-import { INFO_EMAIL, PLAY_EMAIL, VOLUNTEER_EMAIL } from "../../data/site";
-
-const playerSubject = "Player enquiry - Uphill Juniors FC";
-const volunteerSubject = "Volunteering with Uphill Juniors FC";
+import { SponsorInquiryForm } from "../../components/SponsorInquiryForm";
+import { VolunteerInquiryForm } from "../../components/VolunteerInquiryForm";
+import { INFO_EMAIL, SPONSOR_EMAIL } from "../../data/site";
 
 export default function ContactPage() {
   return (
@@ -25,13 +24,7 @@ export default function ContactPage() {
             send the club a message with your child's age group.
           </p>
           <div className="mt-6">
-            <ButtonLink
-              href={`mailto:${PLAY_EMAIL}?subject=${encodeURIComponent(playerSubject)}`}
-              variant="sky"
-              className="w-full sm:w-auto"
-            >
-              Player enquiry
-            </ButtonLink>
+            <PlayerInquiryForm />
           </div>
         </div>
 
@@ -47,13 +40,7 @@ export default function ContactPage() {
             assistance all make a real difference.
           </p>
           <div className="mt-6">
-            <ButtonLink
-              href={`mailto:${VOLUNTEER_EMAIL}?subject=${encodeURIComponent(volunteerSubject)}`}
-              variant="dark"
-              className="w-full sm:w-auto"
-            >
-              Volunteer enquiry
-            </ButtonLink>
+            <VolunteerInquiryForm />
           </div>
         </div>
 
@@ -69,13 +56,7 @@ export default function ContactPage() {
             mentions and wider community partnership options.
           </p>
           <div className="mt-6">
-            <ButtonLink
-              href="/sponsors?package=general"
-              variant="sky"
-              className="w-full sm:w-auto"
-            >
-              Sponsor enquiry
-            </ButtonLink>
+            <SponsorInquiryForm sponsorEmail={SPONSOR_EMAIL} />
           </div>
         </div>
       </div>
