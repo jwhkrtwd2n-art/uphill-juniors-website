@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 import { Icon } from "../../components/Icon";
 import { SectionHeading } from "../../components/SectionHeading";
@@ -20,6 +21,25 @@ function getStatusClasses(status?: string) {
   }
 
   return "bg-rose-100 text-rose-700";
+}
+
+function getSponsorAvailability(
+  opportunities: (typeof teams)[number]["sponsorOpportunities"]
+) {
+  const available = opportunities
+    .filter((opportunity) => !opportunity.sponsor)
+    .map((opportunity) => {
+      if (opportunity.package === "main") return "Front";
+      if (opportunity.package === "back") return "back";
+      return "training";
+    });
+
+  if (!available.length) return "Team sponsors confirmed";
+  if (available.length === 1 && available[0] === "training") {
+    return "Training shirt sponsorship available";
+  }
+
+  return `${available.join(", ").replace(/, ([^,]*)$/, " & $1")} shirts available`;
 }
 
 export default function TeamsPage() {
@@ -82,11 +102,9 @@ export default function TeamsPage() {
                   </span>
                 ) : null}
 
-                {team.sponsorAvailability ? (
-                  <p className="inline-flex rounded-full bg-sky-100 px-3 py-1 text-xs font-black text-sky-700">
-                    {team.sponsorAvailability}
-                  </p>
-                ) : null}
+                <p className="inline-flex rounded-full bg-sky-100 px-3 py-1 text-xs font-black text-sky-700">
+                  {getSponsorAvailability(team.sponsorOpportunities)}
+                </p>
               </div>
 
               <p className="mt-4 text-sm font-bold text-slate-700">
@@ -99,20 +117,45 @@ export default function TeamsPage() {
             </div>
 
             {team.sponsorOpportunities?.length ? (
-              <div className="mt-auto flex flex-wrap gap-3 border-t border-slate-100 pt-6">
+              <div className="mt-auto flex flex-col gap-3 border-t border-slate-100 pt-6">
                 {team.sponsorOpportunities.map((opportunity) => (
-                  <SponsorInquiryForm
+                  <div
                     key={opportunity.label}
-                    sponsorEmail={SPONSOR_EMAIL}
-                    initialPackage={
-                      new URLSearchParams(opportunity.href.split("?")[1]).get(
-                        "package"
-                      ) ?? undefined
-                    }
-                    initialTeam={team.name}
-                    buttonLabel={opportunity.label}
-                    className="whitespace-nowrap"
-                  />
+                    className="flex items-stretch gap-2"
+                  >
+                    <span className="inline-flex min-h-11 flex-1 items-center justify-center rounded-full bg-blue-950 px-4 py-3 text-center text-sm font-black text-white">
+                      {opportunity.label}
+                    </span>
+
+                    {opportunity.sponsor ? (
+                      <a
+                        href={opportunity.sponsor.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`Visit ${opportunity.sponsor.name}`}
+                        className="inline-flex min-h-11 flex-1 items-center justify-center rounded-full bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200 transition hover:bg-slate-50"
+                      >
+                        <Image
+                          src={opportunity.sponsor.logo}
+                          alt={opportunity.sponsor.name}
+                          width={96}
+                          height={32}
+                          className="max-h-8 w-auto object-contain"
+                        />
+                      </a>
+                    ) : (
+                      <div className="flex-1 [&>div]:h-full">
+                        <SponsorInquiryForm
+                          sponsorEmail={SPONSOR_EMAIL}
+                          initialPackage={opportunity.package}
+                          initialTeam={team.name}
+                          buttonLabel="Available"
+                          buttonVariant="available"
+                          className="h-full min-h-11 w-full whitespace-nowrap"
+                        />
+                      </div>
+                    )}
+                  </div>
                 ))}
               </div>
             ) : null}

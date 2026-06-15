@@ -9,7 +9,7 @@ type SponsorInquiryFormProps = {
   initialTeam?: string;
   autoOpen?: boolean;
   buttonLabel?: string;
-  buttonVariant?: "dark" | "sky" | "light";
+  buttonVariant?: "dark" | "sky" | "light" | "available";
   className?: string;
 };
 
@@ -166,6 +166,8 @@ export function SponsorInquiryForm({
       ? "border border-slate-300 bg-white text-slate-950 hover:bg-slate-50"
       : buttonVariant === "dark"
         ? "bg-blue-950 text-white hover:bg-sky-700"
+        : buttonVariant === "available"
+          ? "bg-green-100 text-green-700 hover:bg-green-200"
         : "bg-sky-600 text-white hover:bg-sky-700";
   const modal = isOpen ? (
     <div
