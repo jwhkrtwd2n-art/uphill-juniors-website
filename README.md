@@ -64,3 +64,16 @@ Edit `data/sponsors.ts`.
 ## Updating news cards
 
 Edit `data/news.ts`.
+
+## Members area
+
+The sponsor management area is available at `/admin`. It uses Supabase for
+authentication, sponsor data and logo storage.
+
+1. Create a Supabase project.
+2. Run `supabase/setup.sql` in the Supabase SQL editor.
+3. Create an administrator in Authentication > Users.
+4. Add that user's UUID to `public.admins` using the final SQL statement in
+   `supabase/setup.sql`.
+5. Add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` to
+   `.env.local` and the Vercel project environment variables.

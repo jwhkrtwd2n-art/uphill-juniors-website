@@ -1,7 +1,7 @@
 export const sponsorPackages = [
   {
     title: "Main Playing Kit Sponsor",
-    price: "GBP 650 per team",
+    price: "£650 per team",
     availability: "7 teams available",
     detail: "Premium front-of-shirt visibility on playing kit, with strong exposure across matchdays and team content.",
     includes: [
@@ -20,7 +20,7 @@ export const sponsorPackages = [
   },
   {
     title: "Back of Shirt Sponsor",
-    price: "GBP 300 per team",
+    price: "£300 per team",
     availability: "7 teams available",
     detail: "Logo placement above squad numbers, giving clear visibility during fixtures and club events.",
     includes: [
@@ -37,7 +37,7 @@ export const sponsorPackages = [
   },
   {
     title: "Coaches Sponsor",
-    price: "GBP 600",
+    price: "£600",
     availability: "Available",
     detail: "Branding on coaches and staff polos with club-wide visibility across teams, events and training.",
     includes: [
@@ -55,7 +55,7 @@ export const sponsorPackages = [
   },
   {
     title: "Training Sponsor",
-    price: "GBP 500 per team",
+    price: "£500 per team",
     availability: "8 teams available",
     detail: "Large sponsor branding on training tops, visible at sessions, warmups and community events.",
     includes: [

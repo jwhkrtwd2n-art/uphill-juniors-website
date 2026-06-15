@@ -75,6 +75,20 @@ export function Icon({ name, className = "h-6 w-6" }: IconProps) {
     );
   }
 
+  if (name === "check") {
+    return (
+      <svg {...common}>
+        <path
+          d="m5 12 4 4 10-10"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    );
+  }
+
   if (name === "instagram") {
     return (
       <svg {...common}>

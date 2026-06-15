@@ -5,7 +5,10 @@ import { Icon } from "../../components/Icon";
 import { SectionHeading } from "../../components/SectionHeading";
 import { SponsorInquiryForm } from "../../components/SponsorInquiryForm";
 import { SPONSOR_EMAIL } from "../../data/site";
-import { teams } from "../../data/teams";
+import type { Team } from "../../data/teams";
+import { getTeamsWithSponsors } from "../../lib/sponsors";
+
+export const dynamic = "force-dynamic";
 
 function isRecruiting(status?: string) {
   return status === "Recruiting";
@@ -24,7 +27,7 @@ function getStatusClasses(status?: string) {
 }
 
 function getSponsorAvailability(
-  opportunities: (typeof teams)[number]["sponsorOpportunities"]
+  opportunities: Team["sponsorOpportunities"]
 ) {
   const available = opportunities
     .filter((opportunity) => !opportunity.sponsor)
@@ -42,7 +45,8 @@ function getSponsorAvailability(
   return `${available.join(", ").replace(/, ([^,]*)$/, " & $1")} shirts available`;
 }
 
-export default function TeamsPage() {
+export default async function TeamsPage() {
+  const teams = await getTeamsWithSponsors();
   return (
     <main className="px-4 py-16 sm:px-6 lg:px-8">
       <SectionHeading
@@ -133,7 +137,7 @@ export default function TeamsPage() {
                         target="_blank"
                         rel="noreferrer"
                         aria-label={`Visit ${opportunity.sponsor.name}`}
-                        className="inline-flex min-h-11 flex-1 items-center justify-center rounded-full bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200 transition hover:bg-slate-50"
+                        className="inline-flex min-h-11 flex-1 items-center justify-center overflow-hidden rounded-full bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200 transition hover:bg-slate-50"
                       >
                         <Image
                           src={opportunity.sponsor.logo}
@@ -141,6 +145,11 @@ export default function TeamsPage() {
                           width={96}
                           height={32}
                           className="max-h-8 w-auto object-contain"
+                          style={{
+                            transform: `scale(${
+                              (opportunity.sponsor.logoScale ?? 100) / 100
+                            })`,
+                          }}
                         />
                       </a>
                     ) : (

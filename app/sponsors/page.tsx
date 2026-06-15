@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Suspense } from "react";
+import { Icon } from "../../components/Icon";
 import { SectionHeading } from "../../components/SectionHeading";
 import { SponsorInquiryFromUrl } from "../../components/SponsorInquiryFromUrl";
 import { SponsorInquiryForm } from "../../components/SponsorInquiryForm";
@@ -9,12 +10,29 @@ import {
   sponsorSocialPromo,
   sponsorWhy,
 } from "../../data/sponsors";
+import {
+  formatTeamsAvailable,
+  getAvailableSponsorTeamsByPackage,
+  getSponsorAvailabilityCounts,
+  getSponsorSlots,
+  type SponsorPackageCode,
+} from "../../lib/sponsors";
 
-const sponsorMockups = [
+export const dynamic = "force-dynamic";
+
+const sponsorMockups: {
+  title: string;
+  price: string;
+  packageCode: SponsorPackageCode | "coaches";
+  availability?: string;
+  image: string;
+  alt: string;
+  detail: string;
+}[] = [
   {
     title: "Main Kit Sponsor",
-    price: "GBP 650 per team",
-    availability: "7 teams available",
+    price: "£650 per team",
+    packageCode: "main",
     image: "/main-kit-sponsor.png",
     alt: "Main kit sponsor mock-up",
     detail:
@@ -22,8 +40,8 @@ const sponsorMockups = [
   },
   {
     title: "Back Sponsor",
-    price: "GBP 300 per team",
-    availability: "7 teams available",
+    price: "£300 per team",
+    packageCode: "back",
     image: "/back-sponsor.png",
     alt: "Back sponsor mock-up",
     detail:
@@ -31,8 +49,8 @@ const sponsorMockups = [
   },
   {
     title: "Training Sponsor",
-    price: "GBP 500 per team",
-    availability: "8 teams available",
+    price: "£500 per team",
+    packageCode: "training",
     image: "/training-sponsor.png",
     alt: "Training sponsor mock-up",
     detail:
@@ -40,7 +58,8 @@ const sponsorMockups = [
   },
   {
     title: "Coach Sponsor",
-    price: "GBP 600",
+    price: "£600",
+    packageCode: "coaches",
     availability: "Club-wide package",
     image: "/coach-sponsor.png",
     alt: "Coach sponsor mock-up",
@@ -49,7 +68,12 @@ const sponsorMockups = [
   },
 ];
 
-export default function SponsorsPage() {
+export default async function SponsorsPage() {
+  const sponsorSlots = await getSponsorSlots();
+  const availableTeamsByPackage =
+    getAvailableSponsorTeamsByPackage(sponsorSlots);
+  const availabilityCounts = getSponsorAvailabilityCounts(sponsorSlots);
+
   return (
     <main className="px-4 py-16 sm:px-6 lg:px-8">
       <SectionHeading
@@ -83,7 +107,10 @@ export default function SponsorsPage() {
           </p>
           <div className="mt-6">
             <Suspense fallback={null}>
-              <SponsorInquiryFromUrl sponsorEmail={SPONSOR_EMAIL} />
+              <SponsorInquiryFromUrl
+                sponsorEmail={SPONSOR_EMAIL}
+                availableTeamsByPackage={availableTeamsByPackage}
+              />
             </Suspense>
           </div>
         </div>
@@ -102,7 +129,7 @@ export default function SponsorsPage() {
               {item.items.map((point) => (
                 <li key={point} className="flex gap-3">
                   <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-sky-100 text-sky-700">
-                    Yes
+                    <Icon name="check" className="h-3.5 w-3.5" />
                   </span>
                   <span>{point}</span>
                 </li>
@@ -150,7 +177,11 @@ export default function SponsorsPage() {
                   {sponsor.price}
                 </p>
                 <p className="inline-flex rounded-full bg-white px-3 py-1 text-sm font-black text-sky-700">
-                  {sponsor.availability}
+                  {sponsor.packageCode === "coaches"
+                    ? sponsor.availability
+                    : formatTeamsAvailable(
+                        availabilityCounts[sponsor.packageCode]
+                      )}
                 </p>
               </div>
               <p className="mt-4 text-sm leading-6 text-slate-700">
@@ -188,7 +219,7 @@ export default function SponsorsPage() {
           {sponsorSocialPromo.map((item) => (
             <li key={item} className="flex gap-3">
               <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-sky-100 text-sky-700">
-                Yes
+                <Icon name="check" className="h-3.5 w-3.5" />
               </span>
               <span>{item}</span>
             </li>
@@ -205,7 +236,10 @@ export default function SponsorsPage() {
           brand placement for the season.
         </p>
         <div className="mt-6 flex justify-center">
-          <SponsorInquiryForm sponsorEmail={SPONSOR_EMAIL} />
+          <SponsorInquiryForm
+            sponsorEmail={SPONSOR_EMAIL}
+            availableTeamsByPackage={availableTeamsByPackage}
+          />
         </div>
       </div>
     </main>

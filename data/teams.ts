@@ -1,16 +1,17 @@
-type Sponsor = {
+export type Sponsor = {
   name: string;
   logo: string;
   href: string;
+  logoScale?: number;
 };
 
-type SponsorOpportunity = {
+export type SponsorOpportunity = {
   label: string;
   package: "main" | "back" | "training";
   sponsor?: Sponsor;
 };
 
-type Team = {
+export type Team = {
   name: string;
   schoolYear: string;
   birthRange: string;

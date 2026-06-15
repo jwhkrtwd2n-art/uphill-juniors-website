@@ -5,9 +5,15 @@ import { SponsorInquiryForm } from "./SponsorInquiryForm";
 
 type Props = {
   sponsorEmail: string;
+  availableTeamsByPackage?: Parameters<
+    typeof SponsorInquiryForm
+  >[0]["availableTeamsByPackage"];
 };
 
-export function SponsorInquiryFromUrl({ sponsorEmail }: Props) {
+export function SponsorInquiryFromUrl({
+  sponsorEmail,
+  availableTeamsByPackage,
+}: Props) {
   const searchParams = useSearchParams();
 
   const packageParam = searchParams.get("package") ?? undefined;
@@ -21,6 +27,7 @@ export function SponsorInquiryFromUrl({ sponsorEmail }: Props) {
       initialPackage={packageParam}
       initialTeam={teamParam}
       autoOpen={autoOpen}
+      availableTeamsByPackage={availableTeamsByPackage}
     />
   );
 }

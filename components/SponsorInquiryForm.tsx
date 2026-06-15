@@ -8,17 +8,20 @@ type SponsorInquiryFormProps = {
   initialPackage?: string;
   initialTeam?: string;
   autoOpen?: boolean;
+  availableTeamsByPackage?: Partial<Record<SponsorPackageCode, string[]>>;
   buttonLabel?: string;
   buttonVariant?: "dark" | "sky" | "light" | "available";
   className?: string;
 };
 
-const PACKAGE_OPTIONS = [
-  "Main Playing Kit Sponsor - GBP 650",
-  "Training Top Sponsor - GBP 500",
-  "Back of Shirt Sponsor - GBP 300",
-  "Coaches Kit Sponsor - GBP 600",
-  "General sponsorship enquiry",
+type SponsorPackageCode = "main" | "training" | "back" | "coaches" | "general";
+
+const PACKAGE_OPTIONS: { code: SponsorPackageCode; label: string }[] = [
+  { code: "main", label: "Main Playing Kit Sponsor - £650" },
+  { code: "training", label: "Training Top Sponsor - £500" },
+  { code: "back", label: "Back of Shirt Sponsor - £300" },
+  { code: "coaches", label: "Coaches Kit Sponsor - £600" },
+  { code: "general", label: "General sponsorship enquiry" },
 ];
 
 const MAIN_BACK_TEAM_OPTIONS = [
@@ -45,40 +48,74 @@ const TRAINING_TEAM_OPTIONS = [
 const CLUB_WIDE_OPTIONS = ["Club-wide / not team specific"];
 
 function getPackageFromCode(packageCode?: string) {
-  if (packageCode === "main") return "Main Playing Kit Sponsor - GBP 650";
-  if (packageCode === "training") return "Training Top Sponsor - GBP 500";
-  if (packageCode === "back") return "Back of Shirt Sponsor - GBP 300";
-  if (packageCode === "coaches") return "Coaches Kit Sponsor - GBP 600";
-  return "General sponsorship enquiry";
+  return (
+    PACKAGE_OPTIONS.find((option) => option.code === packageCode)?.label ??
+    "General sponsorship enquiry"
+  );
 }
 
-function getTeamOptions(selectedPackage: string) {
-  if (selectedPackage.startsWith("Coaches Kit Sponsor")) return CLUB_WIDE_OPTIONS;
+function getPackageCodeFromLabel(selectedPackage: string): SponsorPackageCode {
+  return (
+    PACKAGE_OPTIONS.find((option) => option.label === selectedPackage)?.code ??
+    "general"
+  );
+}
+
+function getPackageOptions(
+  availableTeamsByPackage?: Partial<Record<SponsorPackageCode, string[]>>
+) {
+  return PACKAGE_OPTIONS.filter((option) => {
+    if (
+      option.code === "main" ||
+      option.code === "back" ||
+      option.code === "training"
+    ) {
+      const availableTeams = availableTeamsByPackage?.[option.code];
+      return !availableTeams || availableTeams.length > 0;
+    }
+
+    return true;
+  }).map((option) => option.label);
+}
+
+function getTeamOptions(
+  selectedPackage: string,
+  availableTeamsByPackage?: Partial<Record<SponsorPackageCode, string[]>>
+) {
+  const packageCode = getPackageCodeFromLabel(selectedPackage);
+
+  if (packageCode === "coaches") return CLUB_WIDE_OPTIONS;
 
   if (
-    selectedPackage.startsWith("Main Playing Kit Sponsor") ||
-    selectedPackage.startsWith("Back of Shirt Sponsor")
+    packageCode === "main" ||
+    packageCode === "back"
   ) {
+    const availableTeams = availableTeamsByPackage?.[packageCode];
+    if (availableTeams) return availableTeams;
     return MAIN_BACK_TEAM_OPTIONS;
   }
 
-  if (selectedPackage.startsWith("Training Top Sponsor")) {
+  if (packageCode === "training") {
+    const availableTeams = availableTeamsByPackage?.training;
+    if (availableTeams) return availableTeams;
     return TRAINING_TEAM_OPTIONS;
   }
 
   return CLUB_WIDE_OPTIONS;
 }
 
-function getInitialTeam(selectedPackage: string, initialTeam?: string) {
-  const options = getTeamOptions(selectedPackage);
+function getInitialTeam(
+  selectedPackage: string,
+  initialTeam?: string,
+  availableTeamsByPackage?: Partial<Record<SponsorPackageCode, string[]>>
+) {
+  const options = getTeamOptions(selectedPackage, availableTeamsByPackage);
   return initialTeam && options.includes(initialTeam) ? initialTeam : options[0];
 }
 
 function shouldShowTeam(selectedPackage: string) {
-  return !(
-    selectedPackage.startsWith("Coaches Kit Sponsor") ||
-    selectedPackage.startsWith("General sponsorship")
-  );
+  const packageCode = getPackageCodeFromLabel(selectedPackage);
+  return packageCode !== "coaches" && packageCode !== "general";
 }
 
 export function SponsorInquiryForm({
@@ -86,12 +123,21 @@ export function SponsorInquiryForm({
   initialPackage,
   initialTeam,
   autoOpen = false,
+  availableTeamsByPackage,
   buttonLabel = "Sponsor enquiry",
   buttonVariant = "sky",
   className = "",
 }: SponsorInquiryFormProps) {
-  const startingPackage = getPackageFromCode(initialPackage);
-  const startingTeam = getInitialTeam(startingPackage, initialTeam);
+  const availablePackageOptions = getPackageOptions(availableTeamsByPackage);
+  const requestedPackage = getPackageFromCode(initialPackage);
+  const startingPackage = availablePackageOptions.includes(requestedPackage)
+    ? requestedPackage
+    : availablePackageOptions[0];
+  const startingTeam = getInitialTeam(
+    startingPackage,
+    initialTeam,
+    availableTeamsByPackage
+  );
 
   const [isOpen, setIsOpen] = useState(autoOpen);
   const [form, setForm] = useState({
@@ -116,7 +162,7 @@ export function SponsorInquiryForm({
       setForm((current) => ({
         ...current,
         package: value,
-        team: getTeamOptions(value)[0],
+        team: getTeamOptions(value, availableTeamsByPackage)[0],
       }));
       return;
     }
@@ -159,7 +205,10 @@ export function SponsorInquiryForm({
     }
   };
 
-  const availableTeamOptions = getTeamOptions(form.package);
+  const availableTeamOptions = getTeamOptions(
+    form.package,
+    availableTeamsByPackage
+  );
   const showTeam = shouldShowTeam(form.package);
   const buttonClasses =
     buttonVariant === "light"
@@ -258,7 +307,7 @@ export function SponsorInquiryForm({
               onChange={handleChange}
               className="w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100"
             >
-              {PACKAGE_OPTIONS.map((option) => (
+              {availablePackageOptions.map((option) => (
                 <option key={option} value={option}>{option}</option>
               ))}
             </select>
