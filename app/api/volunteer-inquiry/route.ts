@@ -1,44 +1,20 @@
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
 
 import { VOLUNTEER_EMAIL } from "../../../data/site";
-
-const SMTP_HOST = process.env.SMTP_HOST;
-const SMTP_PORT = process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : undefined;
-const SMTP_USER = process.env.SMTP_USER;
-const SMTP_PASS = process.env.SMTP_PASS;
-const EMAIL_FROM = process.env.EMAIL_FROM ?? SMTP_USER ?? VOLUNTEER_EMAIL;
-
-function escapeHtml(value: string) {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
-
-function getTransporter() {
-  if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS) {
-    throw new Error(
-      "SMTP configuration is not set. Please provide SMTP_HOST, SMTP_PORT, SMTP_USER and SMTP_PASS."
-    );
-  }
-
-  return nodemailer.createTransport({
-    host: SMTP_HOST,
-    port: SMTP_PORT,
-    secure: SMTP_PORT === 465,
-    auth: {
-      user: SMTP_USER,
-      pass: SMTP_PASS,
-    },
-  });
-}
+import { escapeHtml, sendClubEmail } from "../../../lib/mail";
+import { getRateLimitResponse, isSpamTrapFilled } from "../../../lib/rate-limit";
 
 export async function POST(request: Request) {
   try {
+    const rateLimitResponse = getRateLimitResponse(request, "volunteer-inquiry");
+    if (rateLimitResponse) return rateLimitResponse;
+
     const body = await request.json();
+
+    if (isSpamTrapFilled(body.website)) {
+      return NextResponse.json({ success: true });
+    }
+
     const name = String(body.name ?? "").trim();
     const email = String(body.email ?? "").trim();
     const phone = String(body.phone ?? "").trim();
@@ -82,9 +58,8 @@ Role interested in: ${role}`;
       <p><strong>Role interested in:</strong> ${escapeHtml(role)}</p>
     `;
 
-    const transporter = getTransporter();
-    await transporter.sendMail({
-      from: EMAIL_FROM,
+    await sendClubEmail({
+      fallbackFromEmail: VOLUNTEER_EMAIL,
       to: VOLUNTEER_EMAIL,
       replyTo: email,
       subject,

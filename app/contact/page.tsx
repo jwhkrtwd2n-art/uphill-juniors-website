@@ -1,10 +1,34 @@
+import type { Metadata } from "next";
 import { PlayerInquiryForm } from "../../components/PlayerInquiryForm";
 import { SectionHeading } from "../../components/SectionHeading";
 import { SponsorInquiryForm } from "../../components/SponsorInquiryForm";
 import { VolunteerInquiryForm } from "../../components/VolunteerInquiryForm";
 import { INFO_EMAIL, SPONSOR_EMAIL } from "../../data/site";
+import {
+  getAvailableSponsorTeamsByPackage,
+  getSponsorSlots,
+} from "../../lib/sponsors";
 
-export default function ContactPage() {
+export const metadata: Metadata = {
+  title: "Contact",
+  description:
+    "Contact Uphill Juniors FC about player enquiries, volunteering, sponsorship and general club questions.",
+  alternates: {
+    canonical: "/contact",
+  },
+  openGraph: {
+    title: "Contact Uphill Juniors FC",
+    description:
+      "Get in touch about joining, volunteering, sponsorship or general club enquiries.",
+    url: "/contact",
+  },
+};
+
+export default async function ContactPage() {
+  const availableTeamsByPackage = getAvailableSponsorTeamsByPackage(
+    await getSponsorSlots()
+  );
+
   return (
     <main className="px-4 py-16 sm:px-6 lg:px-8">
       <SectionHeading
@@ -18,7 +42,7 @@ export default function ContactPage() {
           <p className="text-sm font-black uppercase tracking-[0.22em] text-sky-300">
             Players
           </p>
-          <h1 className="mt-3 text-3xl font-black">Ask about joining</h1>
+          <h2 className="mt-3 text-3xl font-black">Ask about joining</h2>
           <p className="mt-4 text-sm leading-6 text-slate-300">
             For age group availability, waiting lists and player enquiries,
             send the club a message with your child's age group.
@@ -32,9 +56,9 @@ export default function ContactPage() {
           <p className="text-sm font-black uppercase tracking-[0.22em] text-sky-700">
             Volunteers
           </p>
-          <h1 className="mt-3 text-3xl font-black text-slate-950">
+          <h2 className="mt-3 text-3xl font-black text-slate-950">
             Help off the pitch
-          </h1>
+          </h2>
           <p className="mt-4 text-sm leading-6 text-slate-600">
             Coaching help, matchday support, admin, fundraising and committee
             assistance all make a real difference.
@@ -48,15 +72,18 @@ export default function ContactPage() {
           <p className="text-sm font-black uppercase tracking-[0.22em] text-sky-700">
             Sponsorship
           </p>
-          <h1 className="mt-3 text-3xl font-black text-slate-950">
+          <h2 className="mt-3 text-3xl font-black text-slate-950">
             Support the club
-          </h1>
+          </h2>
           <p className="mt-4 text-sm leading-6 text-slate-600">
             Discuss shirt sponsorship, training wear, coach kit, social media
             mentions and wider community partnership options.
           </p>
           <div className="mt-6">
-            <SponsorInquiryForm sponsorEmail={SPONSOR_EMAIL} />
+            <SponsorInquiryForm
+              sponsorEmail={SPONSOR_EMAIL}
+              availableTeamsByPackage={availableTeamsByPackage}
+            />
           </div>
         </div>
       </div>

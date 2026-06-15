@@ -1,14 +1,34 @@
 import Link from "next/link";
 import Image from "next/image";
+import type { Metadata } from "next";
 
 import { Icon } from "../../components/Icon";
 import { SectionHeading } from "../../components/SectionHeading";
 import { SponsorInquiryForm } from "../../components/SponsorInquiryForm";
 import { SPONSOR_EMAIL } from "../../data/site";
-import type { Team } from "../../data/teams";
-import { getTeamsWithSponsors } from "../../lib/sponsors";
+import { teams as baseTeams, type Team } from "../../data/teams";
+import {
+  getAvailableSponsorTeamsByPackage,
+  getSponsorSlots,
+  mergeSponsorSlots,
+} from "../../lib/sponsors";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Teams",
+  description:
+    "View Uphill Juniors FC age groups, current player availability and team sponsorship opportunities.",
+  alternates: {
+    canonical: "/teams",
+  },
+  openGraph: {
+    title: "Teams at Uphill Juniors FC",
+    description:
+      "Current age groups, player availability and team sponsor slots at Uphill Juniors FC.",
+    url: "/teams",
+  },
+};
 
 function isRecruiting(status?: string) {
   return status === "Recruiting";
@@ -46,7 +66,10 @@ function getSponsorAvailability(
 }
 
 export default async function TeamsPage() {
-  const teams = await getTeamsWithSponsors();
+  const sponsorSlots = await getSponsorSlots();
+  const teams = mergeSponsorSlots(baseTeams, sponsorSlots);
+  const availableTeamsByPackage =
+    getAvailableSponsorTeamsByPackage(sponsorSlots);
   return (
     <main className="px-4 py-16 sm:px-6 lg:px-8">
       <SectionHeading
@@ -70,9 +93,9 @@ export default async function TeamsPage() {
                 {team.schoolYear}
               </p>
 
-              <h1 className="mt-2 text-2xl font-black text-slate-950">
+              <h2 className="mt-2 text-2xl font-black text-slate-950">
                 {team.name}
-              </h1>
+              </h2>
 
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 <p className="inline-flex rounded-full bg-blue-950 px-3 py-1 text-xs font-black text-white">
@@ -160,6 +183,7 @@ export default async function TeamsPage() {
                           initialTeam={team.name}
                           buttonLabel="Available"
                           buttonVariant="available"
+                          availableTeamsByPackage={availableTeamsByPackage}
                           className="h-full min-h-11 w-full whitespace-nowrap"
                         />
                       </div>

@@ -1,3 +1,4 @@
+export const SITE_URL = "https://www.uphilljuniorsfc.co.uk";
 export const INFO_EMAIL = "info@uphilljuniorsfc.co.uk";
 export const PLAY_EMAIL = "play@uphilljuniorsfc.co.uk";
 export const VOLUNTEER_EMAIL = "volunteer@uphilljuniorsfc.co.uk";

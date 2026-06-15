@@ -1,10 +1,30 @@
 import Image from "next/image";
+import type { Metadata } from "next";
 import { ClubBadge } from "../components/ClubBadge";
 import { Icon } from "../components/Icon";
 import { SocialSection } from "../components/SocialSection";
 import { SponsorInquiryForm } from "../components/SponsorInquiryForm";
 import { VolunteerInquiryForm } from "../components/VolunteerInquiryForm";
 import { SPONSOR_EMAIL } from "../data/site";
+import {
+  getAvailableSponsorTeamsByPackage,
+  getSponsorSlots,
+} from "../lib/sponsors";
+
+export const metadata: Metadata = {
+  title: "Grassroots Football in Uphill",
+  description:
+    "Inclusive, affordable and community-focused grassroots football for children and young people in Uphill, Weston-super-Mare and the surrounding area.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Uphill Juniors FC",
+    description:
+      "A friendly grassroots football club serving Uphill, Bournville, Oldmixon, Coronation Estate and the wider local community.",
+    url: "/",
+  },
+};
 
 const stats = [
   { label: "Founded", value: "2021" },
@@ -13,7 +33,11 @@ const stats = [
   { label: "Club model", value: "Volunteer-led" },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const availableTeamsByPackage = getAvailableSponsorTeamsByPackage(
+    await getSponsorSlots()
+  );
+
   return (
     <main>
       <section className="relative overflow-hidden bg-sky-50">
@@ -51,6 +75,7 @@ export default function HomePage() {
                 sponsorEmail={SPONSOR_EMAIL}
                 buttonLabel="Sponsor the club"
                 buttonVariant="light"
+                availableTeamsByPackage={availableTeamsByPackage}
               />
             </div>
           </div>

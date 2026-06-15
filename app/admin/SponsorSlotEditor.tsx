@@ -7,6 +7,7 @@ import type { SponsorSlotRow } from "../../lib/sponsors";
 
 type Props = {
   slots: SponsorSlotRow[];
+  dataWarning?: string;
   needsLogoScaleMigration?: boolean;
 };
 
@@ -31,6 +32,7 @@ function clampLogoScale(value: FormDataEntryValue | null) {
 
 export function SponsorSlotEditor({
   slots,
+  dataWarning,
   needsLogoScaleMigration = false,
 }: Props) {
   const router = useRouter();
@@ -49,6 +51,8 @@ export function SponsorSlotEditor({
     const file = form.get("logo") as File;
     let logoUrl = String(form.get("current_logo_url") || "");
     const logoScale = clampLogoScale(form.get("logo_scale"));
+    const sponsorName = String(form.get("sponsor_name") || "").trim();
+    const sponsorUrl = String(form.get("sponsor_url") || "").trim();
 
     if (file?.size) {
       if (file.size > 2 * 1024 * 1024) {
@@ -71,12 +75,23 @@ export function SponsorSlotEditor({
       logoUrl = supabase.storage.from("sponsor-logos").getPublicUrl(path).data.publicUrl;
     }
 
+    const hasAnySponsorDetail = Boolean(sponsorName || sponsorUrl || logoUrl);
+    const hasAllSponsorDetails = Boolean(sponsorName && sponsorUrl && logoUrl);
+
+    if (hasAnySponsorDetail && !hasAllSponsorDetails) {
+      setMessage(
+        "Please provide sponsor name, website and logo before saving a sold slot. To make it available, remove all sponsor details."
+      );
+      setSaving("");
+      return;
+    }
+
     const payload = {
       team_name: slot.team_name,
       package_code: slot.package_code,
       label: slot.label,
-      sponsor_name: String(form.get("sponsor_name") || "").trim() || null,
-      sponsor_url: String(form.get("sponsor_url") || "").trim() || null,
+      sponsor_name: sponsorName || null,
+      sponsor_url: sponsorUrl || null,
       logo_url: logoUrl || null,
       logo_scale: logoScale,
     };
@@ -162,6 +177,12 @@ export function SponsorSlotEditor({
       {message ? (
         <p className="mb-6 rounded-2xl bg-sky-50 px-4 py-3 text-sm font-bold text-sky-800">
           {message}
+        </p>
+      ) : null}
+
+      {dataWarning ? (
+        <p className="mb-6 rounded-2xl bg-rose-50 px-4 py-3 text-sm font-bold text-rose-700">
+          Supabase warning: {dataWarning}
         </p>
       ) : null}
 

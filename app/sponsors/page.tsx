@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Icon } from "../../components/Icon";
 import { SectionHeading } from "../../components/SectionHeading";
@@ -19,6 +20,36 @@ import {
 } from "../../lib/sponsors";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Sponsorship",
+  description:
+    "Support Uphill Juniors FC through main kit, back-of-shirt, training top and coaches kit sponsorship opportunities.",
+  alternates: {
+    canonical: "/sponsors",
+  },
+  openGraph: {
+    title: "Sponsor Uphill Juniors FC",
+    description:
+      "Help keep local grassroots football affordable while promoting your business in the Uphill community.",
+    url: "/sponsors",
+    images: [
+      {
+        url: "/sponsor-mockups.png",
+        width: 1200,
+        height: 630,
+        alt: "Uphill Juniors FC sponsorship mockups",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sponsor Uphill Juniors FC",
+    description:
+      "Main kit, back-of-shirt, training top and coaches kit sponsorship opportunities.",
+    images: ["/sponsor-mockups.png"],
+  },
+};
 
 const sponsorMockups: {
   title: string;
@@ -98,9 +129,9 @@ export default async function SponsorsPage() {
           <p className="text-sm font-black uppercase tracking-[0.22em] text-sky-300">
             Sponsorship 2026/27
           </p>
-          <h1 className="mt-3 text-4xl font-black tracking-tight">
+          <h2 className="mt-3 text-4xl font-black tracking-tight">
             Partner with Uphill Juniors FC
-          </h1>
+          </h2>
           <p className="mt-5 text-base leading-7 text-slate-300">
             Your business can help keep grassroots football affordable, support
             local young people and get visible community recognition.

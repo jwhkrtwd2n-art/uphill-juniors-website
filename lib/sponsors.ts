@@ -1,16 +1,36 @@
 import { teams, type Team } from "../data/teams";
+import {
+  getAvailableSponsorTeamsByPackage,
+  getSponsorAvailabilityCounts,
+  formatTeamsAvailable,
+  isSponsorSlotAvailable,
+} from "./sponsor-availability";
+import type { TeamSponsorPackageCode } from "./sponsor-packages";
 import { createClient } from "./supabase/server";
 
-export type SponsorPackageCode = "main" | "back" | "training";
+export type { AvailableSponsorTeamsByPackage } from "./sponsor-availability";
+export {
+  getAvailableSponsorTeamsByPackage,
+  getSponsorAvailabilityCounts,
+  formatTeamsAvailable,
+  isSponsorSlotAvailable,
+};
+export type { TeamSponsorPackageCode as SponsorPackageCode } from "./sponsor-packages";
 
 export type SponsorSlotRow = {
   team_name: string;
-  package_code: SponsorPackageCode;
+  package_code: TeamSponsorPackageCode;
   label: string;
   sponsor_name: string | null;
   sponsor_url: string | null;
   logo_url: string | null;
   logo_scale: number | null;
+};
+
+export type SponsorSlotsResult = {
+  slots: SponsorSlotRow[];
+  errorMessage?: string;
+  needsLogoScaleMigration?: boolean;
 };
 
 function getFallbackSponsorSlots(): SponsorSlotRow[] {
@@ -25,39 +45,6 @@ function getFallbackSponsorSlots(): SponsorSlotRow[] {
       logo_scale: opportunity.sponsor?.logoScale ?? 100,
     }))
   );
-}
-
-function isSponsorSlotSold(slot: SponsorSlotRow) {
-  return Boolean(slot.sponsor_name && slot.sponsor_url && slot.logo_url);
-}
-
-export function getAvailableSponsorTeamsByPackage(slots: SponsorSlotRow[]) {
-  return slots.reduce<Record<SponsorPackageCode, string[]>>(
-    (available, slot) => {
-      if (!isSponsorSlotSold(slot)) {
-        available[slot.package_code].push(slot.team_name);
-      }
-
-      return available;
-    },
-    { main: [], back: [], training: [] }
-  );
-}
-
-export function getSponsorAvailabilityCounts(slots: SponsorSlotRow[]) {
-  const available = getAvailableSponsorTeamsByPackage(slots);
-
-  return {
-    main: available.main.length,
-    back: available.back.length,
-    training: available.training.length,
-  };
-}
-
-export function formatTeamsAvailable(count: number) {
-  if (count === 0) return "Fully sponsored";
-  if (count === 1) return "1 team available";
-  return `${count} teams available`;
 }
 
 export function mergeSponsorSlots(
@@ -96,8 +83,12 @@ export async function getTeamsWithSponsors() {
 }
 
 export async function getSponsorSlots() {
+  return (await getSponsorSlotsWithStatus()).slots;
+}
+
+export async function getSponsorSlotsWithStatus(): Promise<SponsorSlotsResult> {
   const supabase = createClient();
-  if (!supabase) return getFallbackSponsorSlots();
+  if (!supabase) return { slots: getFallbackSponsorSlots() };
 
   const result = await supabase
     .from("sponsor_slots")
@@ -110,11 +101,30 @@ export async function getSponsorSlots() {
       .from("sponsor_slots")
       .select("team_name, package_code, label, sponsor_name, sponsor_url, logo_url");
 
-    if (error || !data) return getFallbackSponsorSlots();
-    return data.map((slot) => ({ ...slot, logo_scale: 100 })) as SponsorSlotRow[];
+    if (error || !data) {
+      return {
+        slots: getFallbackSponsorSlots(),
+        errorMessage:
+          error?.message ??
+          "Unable to load sponsor slots from Supabase. Showing fallback data.",
+      };
+    }
+
+    return {
+      slots: data.map((slot) => ({ ...slot, logo_scale: 100 })) as SponsorSlotRow[],
+      needsLogoScaleMigration: true,
+    };
   }
 
   const { data, error } = result;
-  if (error || !data) return getFallbackSponsorSlots();
-  return data as SponsorSlotRow[];
+  if (error || !data) {
+    return {
+      slots: getFallbackSponsorSlots(),
+      errorMessage:
+        error?.message ??
+        "Unable to load sponsor slots from Supabase. Showing fallback data.",
+    };
+  }
+
+  return { slots: data as SponsorSlotRow[] };
 }

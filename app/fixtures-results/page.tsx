@@ -1,5 +1,21 @@
+import type { Metadata } from "next";
 import { FAFullTimeFeeds } from "../../components/FAFullTimeFeeds";
 import { SectionHeading } from "../../components/SectionHeading";
+
+export const metadata: Metadata = {
+  title: "Fixtures & Results",
+  description:
+    "Follow public Uphill Juniors FC fixtures and results supplied by FA Full-Time.",
+  alternates: {
+    canonical: "/fixtures-results",
+  },
+  openGraph: {
+    title: "Fixtures & Results | Uphill Juniors FC",
+    description:
+      "Public FA Full-Time fixture and result information for Uphill Juniors FC.",
+    url: "/fixtures-results",
+  },
+};
 
 export default function FixturesResultsPage() {
   return (

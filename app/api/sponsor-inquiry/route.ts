@@ -1,43 +1,30 @@
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
 import { SPONSOR_EMAIL } from "../../../data/site";
-
-const SMTP_HOST = process.env.SMTP_HOST;
-const SMTP_PORT = process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : undefined;
-const SMTP_USER = process.env.SMTP_USER;
-const SMTP_PASS = process.env.SMTP_PASS;
-const EMAIL_FROM = process.env.EMAIL_FROM ?? SMTP_USER ?? SPONSOR_EMAIL;
-
-function escapeHtml(value: string) {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
-
-function getTransporter() {
-  if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS) {
-    throw new Error(
-      "SMTP configuration is not set. Please provide SMTP_HOST, SMTP_PORT, SMTP_USER and SMTP_PASS."
-    );
-  }
-
-  return nodemailer.createTransport({
-    host: SMTP_HOST,
-    port: SMTP_PORT,
-    secure: SMTP_PORT === 465,
-    auth: {
-      user: SMTP_USER,
-      pass: SMTP_PASS,
-    },
-  });
-}
+import { escapeHtml, sendClubEmail } from "../../../lib/mail";
+import { getRateLimitResponse, isSpamTrapFilled } from "../../../lib/rate-limit";
+import {
+  getPackageCodeFromLabel,
+  isTeamSponsorPackageCode,
+} from "../../../lib/sponsor-packages";
+import {
+  getAvailableSponsorTeamsByPackage,
+  getSponsorSlots,
+  isSponsorSlotAvailable,
+} from "../../../lib/sponsors";
 
 export async function POST(request: Request) {
   try {
+    const rateLimitResponse = getRateLimitResponse(
+      request,
+      "sponsor-inquiry"
+    );
+    if (rateLimitResponse) return rateLimitResponse;
+
     const body = await request.json();
+
+    if (isSpamTrapFilled(body.website)) {
+      return NextResponse.json({ success: true });
+    }
 
     const name = String(body.name ?? "").trim();
     const business = String(body.business ?? "").trim();
@@ -57,7 +44,26 @@ export async function POST(request: Request) {
       );
     }
 
-    const transporter = getTransporter();
+    const packageCode = getPackageCodeFromLabel(packageType);
+    if (isTeamSponsorPackageCode(packageCode)) {
+      const availableTeamsByPackage = getAvailableSponsorTeamsByPackage(
+        await getSponsorSlots()
+      );
+
+      if (
+        !team ||
+        !isSponsorSlotAvailable(availableTeamsByPackage, packageCode, team)
+      ) {
+        return NextResponse.json(
+          {
+            error:
+              "That sponsorship slot is no longer available. Please choose another option.",
+          },
+          { status: 409 }
+        );
+      }
+    }
+
     const subject = `Sponsorship enquiry - ${packageType} - ${
       team || "Club-wide"
     } - ${business || name}`;
@@ -82,8 +88,8 @@ ${message}`;
       <p>${escapeHtml(message).replace(/\n/g, "<br />")}</p>
     `;
 
-    await transporter.sendMail({
-      from: EMAIL_FROM,
+    await sendClubEmail({
+      fallbackFromEmail: SPONSOR_EMAIL,
       to: SPONSOR_EMAIL,
       replyTo: email,
       subject,

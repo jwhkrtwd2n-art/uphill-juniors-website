@@ -7,8 +7,13 @@ import { ClubBadge } from "./ClubBadge";
 import { ButtonLink } from "./ButtonLink";
 import { SponsorInquiryForm } from "./SponsorInquiryForm";
 import { CLUB_SHOP_URL, pages, SPONSOR_EMAIL } from "../data/site";
+import type { AvailableSponsorTeamsByPackage } from "../lib/sponsors";
 
-export function Header() {
+type HeaderProps = {
+  availableTeamsByPackage?: AvailableSponsorTeamsByPackage;
+};
+
+export function Header({ availableTeamsByPackage }: HeaderProps) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -43,6 +48,7 @@ export function Header() {
           type="button"
           className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-950 shadow-sm transition hover:bg-slate-50 lg:hidden"
           aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+          aria-controls="mobile-menu"
           aria-expanded={mobileMenuOpen}
           onClick={() => setMobileMenuOpen((open) => !open)}
         >
@@ -59,7 +65,10 @@ export function Header() {
       </div>
 
       {mobileMenuOpen ? (
-        <div className="border-t border-slate-200 bg-white px-4 py-4 shadow-xl lg:hidden">
+        <div
+          id="mobile-menu"
+          className="border-t border-slate-200 bg-white px-4 py-4 shadow-xl lg:hidden"
+        >
           <nav className="mx-auto flex max-w-7xl flex-col gap-2" aria-label="Mobile navigation">
             {pages.map((page) => (
               <Link
@@ -85,6 +94,7 @@ export function Header() {
             <ButtonLink href="/contact" variant="sky">Contact the club</ButtonLink>
             <SponsorInquiryForm
               sponsorEmail={SPONSOR_EMAIL}
+              availableTeamsByPackage={availableTeamsByPackage}
               className="w-full"
             />
           </div>
